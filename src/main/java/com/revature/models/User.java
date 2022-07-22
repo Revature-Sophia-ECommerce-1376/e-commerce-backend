@@ -1,8 +1,7 @@
 package com.revature.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.sun.istack.NotNull;
+import lombok.*;
 
 import java.util.List;
 
@@ -19,62 +18,51 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.*;
+import java.util.*;
+
 @Data
 @Entity
 @NoArgsConstructor
+@RequiredArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
+@Table(
+        name = "users",
+        uniqueConstraints = @UniqueConstraint(columnNames={"email"})
+)
 public class User {
 
     @Id
     @Column(name="user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private int id;
-    
-    @NotBlank
-    @Column(unique=true)
-    @Email
+
+    @NotNull
     private String email;
-    
-    @NotBlank
-    @Length(min=8)
+    @NotNull
     private String password;
-    
-    @NotBlank
+    @NotNull
     private String firstName;
-    
-    @NotBlank
+    @NotNull
     private String lastName;
-    
-    @ManyToMany(mappedBy="address_id")
-    private List<Address> address;
-    
-    @OneToMany(mappedBy="")
-    private List<Review> review;
-    
-    @OneToMany(mappedBy="")
-    private List<Purchases> product;
-    
-    
+    @NotNull
+    private String role;
 
-	public User(int id, String email, String password, String firstName, String lastName) {
-		super();
-		this.id = id;
-		this.email = email;
-		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-	}
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "user_id")
+    private Set<Purchase> purchases = new LinkedHashSet<>();
 
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "user_id")
+    private Set<Review> reviews = new LinkedHashSet<>();
 
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "users_addresses",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "address_id") }
+    )
+    private Set<Address> addresses = new HashSet<>();
 
-	public User(String email, String password) {
-		super();
-		this.email = email;
-		this.password = password;
-	}
-    
-    
-    
-    
 }
