@@ -22,4 +22,9 @@ public class AuthService {
     public User register(User user) {
         return userService.save(user);
     }
+    
+    public boolean requestPasswordReset(String email) {
+    	
+    	return userService.requestPasswordReset(email);
+    }
 }

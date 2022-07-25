@@ -47,7 +47,14 @@ VALUES (
            'testAdmin',
            'User',
            'ADMIN'
-       );
+       ),
+       ( 2,
+       	'andyhughes39@gmail.com',
+       	'password',
+       	'andrew',
+       	'h',
+       	'any'
+       	);
 
 INSERT INTO purchases (purchase_id,product_id, user_id)
 VALUES (

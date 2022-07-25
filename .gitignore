@@ -37,3 +37,7 @@ build/
 ### Docker ###
 push.sh
 .dockerignore
+
+### System Files ###
+.DS_Store
+Thumbs.db
