@@ -13,12 +13,12 @@ import com.amazonaws.services.simpleemail.model.SendEmailResult;
 
 public class AmazonSES {
 
-	final String FROM = "andyhughes39@yahoo.com";
+	final String FROM = "andyhughes39@gmail.com";
 	
 	final String SUBJECT = "Hello from AWS SES";
 	
 	final String HTMLBODY = "<h1>Please request your password</h1>"
-			+ "<a href='http://localhost:8080/password-reset.html?token=$tokenValue";
+			+ "<a href='http://localhost:8080/password-reset.html?token=$tokenValue>";
 	
 	final String TEXTBODY = "Please click the link below"
 			+ "http://localhost:8080/password-reset.html?token=$tokenValue";
