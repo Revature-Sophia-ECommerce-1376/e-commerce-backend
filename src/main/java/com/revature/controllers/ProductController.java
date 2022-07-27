@@ -2,10 +2,7 @@ package com.revature.controllers;
 
 import com.revature.annotations.Authorized;
 import com.revature.annotations.AuthorizedAdmin;
-import com.revature.dtos.CreateUpdateRequest;
 import com.revature.dtos.ProductInfo;
-import com.revature.exceptions.InvalidProductInputException;
-import com.revature.exceptions.InvalidRoleException;
 import com.revature.models.Product;
 import com.revature.services.ProductService;
 import org.springframework.http.ResponseEntity;
@@ -39,65 +36,25 @@ public class ProductController {
 
         return optional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
-    
+
     @Authorized
     @AuthorizedAdmin
     @PutMapping("/create-update")
-    public ResponseEntity<Product> insertAndUpdate(@RequestBody CreateUpdateRequest createupdateRequest) {
-    	int id =createupdateRequest.getId();
-    	Optional<Product> currPd = productService.findById(id);
-    	
-    	int quantity = createupdateRequest.getQuantity();	
-    	double price = createupdateRequest.getPrice();
-    	String description = createupdateRequest.getDescription();
-    	String image = createupdateRequest.getImage();
-    	String name = createupdateRequest.getName();
-    	
-     
+    public ResponseEntity<Product> upsert(@RequestBody Product product) {
+    	Optional<Product> currPd = productService.findById(product.getId());
     	if(currPd.isPresent()) {
-    	
-				Product updatePd = currPd.get();
-				updatePd.setId(id);
-				if(!(name == null)) {
-					updatePd.setName(name );
-				}
-				
-				if(price!= 0.0) {
-					updatePd.setPrice(price);
-				}
-  	
-				if(quantity!=0) {
-  
-					updatePd.setQuantity(quantity);    			
-				}
-				if(!(description == null)) {
-					updatePd.setDescription(description);
-				}
-				if(!(image== null)) {
-					updatePd.setImage(image);
-					
-				}
-				
-				
-				return ResponseEntity.ok(productService.save(updatePd));
-		
-				// TODO Auto-generated catch block
-				
-			
+    		Product updatePd = currPd.get();
+    		updatePd.setName(product.getName());
+    		updatePd.setPrice(product.getPrice());
+    		updatePd.setQuantity(product.getQuantity());
+    		updatePd.setDescription(product.getDescription());
+    		updatePd.setImage(product.getImage());
+    		productService.save(updatePd);
     		
     	}
-    	Product newPd;
-		try {
-			newPd = new Product(quantity,price,description,image,name);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			throw new InvalidProductInputException("Null value is not allowed");
-		}
     	
-    	return ResponseEntity.ok(productService.save(newPd));
-
+        return ResponseEntity.ok(productService.save(product));
     }
-
     
     @Authorized
     @PatchMapping
