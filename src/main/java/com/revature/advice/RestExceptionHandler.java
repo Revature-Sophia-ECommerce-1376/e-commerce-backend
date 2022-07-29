@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.revature.exceptions.AddressNotFoundException;
 import com.revature.exceptions.DuplicateReviewException;
 import com.revature.exceptions.InvalidProductInputException;
 import com.revature.exceptions.InvalidRoleException;
@@ -60,7 +61,7 @@ public class RestExceptionHandler {
 	}
 
 	@ExceptionHandler(UserNotFoundException.class)
-	public ResponseEntity<Object> handleReviewNotFoundException(HttpServletRequest request,
+	public ResponseEntity<Object> handleUserNotFoundException(HttpServletRequest request,
 			UserNotFoundException userNotFoundException) {
 
 		String errorMessage = userNotFoundException.getMessage();
@@ -68,7 +69,7 @@ public class RestExceptionHandler {
 	}
 
 	@ExceptionHandler(DuplicateReviewException.class)
-	public ResponseEntity<Object> handleReviewNotFoundException(HttpServletRequest request,
+	public ResponseEntity<Object> handleDuplicateReviewException(HttpServletRequest request,
 			DuplicateReviewException duplicateReviewException) {
 
 		String errorMessage = duplicateReviewException.getMessage();
@@ -76,7 +77,7 @@ public class RestExceptionHandler {
 	}
 
 	@ExceptionHandler(UnauthorizedReviewAccessException.class)
-    public ResponseEntity<Object> handleReviewNotFoundException(
+    public ResponseEntity<Object> handleUnauthorizedReviewAccessException(
 		HttpServletRequest request, 
 		UnauthorizedReviewAccessException unauthorizedReviewAccessException
 	) {
@@ -84,4 +85,12 @@ public class RestExceptionHandler {
     	String errorMessage = unauthorizedReviewAccessException.getMessage();
     	return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
     }
+	
+	@ExceptionHandler(AddressNotFoundException.class)
+	public ResponseEntity<Object> handleUserNotFoundException(HttpServletRequest request,
+			AddressNotFoundException addressNotFoundException) {
+
+		String errorMessage = addressNotFoundException.getMessage();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+	}
 }
