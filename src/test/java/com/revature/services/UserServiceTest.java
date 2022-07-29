@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
@@ -31,7 +32,7 @@ class UserServiceTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		this.dummyUser = new User(1, "dummy.admin@revature.com", "asdf", "Dummy", "User", "Admin");
+		this.dummyUser = new User(1, "dummy.admin@revature.com", "asdf", "Dummy", "User", "Admin", null, null, null );
 	}
 
 	@AfterEach

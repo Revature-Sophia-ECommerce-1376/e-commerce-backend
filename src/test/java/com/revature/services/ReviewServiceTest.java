@@ -98,7 +98,7 @@ class ReviewServiceTest {
 
 	@Test
 	void testFindAll() {
-		User user2 = new User(0, "user2@revature.com", "qwerty123", "Another", "User", "Customer");
+		User user2 = new User(0, "user2@revature.com", "qwerty123", "Another", "User", "Customer", null, null, null);
 		List<Review> expected = new LinkedList<>();
 		expected.add(this.dummyReview);
 		expected.add(new Review(2, 4, "Another review", "Some review body text", null, null, this.dummyProduct, user2));
