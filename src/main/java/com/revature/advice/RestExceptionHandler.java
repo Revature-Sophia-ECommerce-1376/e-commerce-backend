@@ -44,6 +44,13 @@ public class RestExceptionHandler {
 
 	}
 
+	@ExceptionHandler(AddressNotFoundException.class)
+	public ResponseEntity<Object> handleAddressNotFoundException(HttpServletRequest request,
+			AddressNotFoundException addressNotFoundException) {
+		String errorMessage = addressNotFoundException.getMessage();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+	}
+
 	@ExceptionHandler(ProductNotFoundException.class)
 	public ResponseEntity<Object> handleProductNotFoundException(HttpServletRequest request,
 			ProductNotFoundException productNotFoundException) {
@@ -77,20 +84,12 @@ public class RestExceptionHandler {
 	}
 
 	@ExceptionHandler(UnauthorizedReviewAccessException.class)
-    public ResponseEntity<Object> handleUnauthorizedReviewAccessException(
-		HttpServletRequest request, 
-		UnauthorizedReviewAccessException unauthorizedReviewAccessException
-	) {
-    	
-    	String errorMessage = unauthorizedReviewAccessException.getMessage();
-    	return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
-    }
-	
-	@ExceptionHandler(AddressNotFoundException.class)
-	public ResponseEntity<Object> handleUserNotFoundException(HttpServletRequest request,
-			AddressNotFoundException addressNotFoundException) {
+	public ResponseEntity<Object> handleUnauthorizedReviewAccessException(HttpServletRequest request,
+			UnauthorizedReviewAccessException unauthorizedReviewAccessException) {
 
-		String errorMessage = addressNotFoundException.getMessage();
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+		String errorMessage = unauthorizedReviewAccessException.getMessage();
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
 	}
+
+
 }
