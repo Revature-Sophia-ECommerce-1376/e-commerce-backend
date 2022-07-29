@@ -26,48 +26,53 @@ import java.util.Set;
 public class User {
 
     @Id
-    @Column(name="user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
+    @Column(name = "user_id")
+
     private int id;
 
     @NotNull
+    @NonNull
     private String email;
     @NotNull
+    @NonNull
     private String password;
     @NotNull
+    @NonNull
     private String firstName;
     @NotNull
+    @NonNull
     private String lastName;
+
     @NotNull
+    @NonNull
     private String role;
 
-    @OneToMany(orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     @ToString.Exclude
     private Set<Purchase> purchases = new LinkedHashSet<>();
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     @ToString.Exclude
     private Set<Review> reviews = new LinkedHashSet<>();
 
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
     @JoinTable(
             name = "users_addresses",
             joinColumns = { @JoinColumn(name = "user_id") },
             inverseJoinColumns = { @JoinColumn(name = "address_id") }
     )
-    @JsonIgnore
     @ToString.Exclude
     private Set<Address> addresses = new HashSet<>();
-
 
     @Override
     public int hashCode() {
         return getClass().hashCode();
     }
 
+
 }
+
