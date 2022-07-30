@@ -32,7 +32,7 @@ class UserServiceTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		this.dummyUser = new User(1, "dummy.admin@revature.com", "asdf", "Dummy", "User", "Admin", null, null, null );
+		this.dummyUser = new User("dummy.admin@revature.com", "asdf", "Dummy", "User", "Admin");
 	}
 
 	@AfterEach
