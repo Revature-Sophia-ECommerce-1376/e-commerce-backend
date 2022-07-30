@@ -17,7 +17,7 @@ import com.revature.services.ReviewService;
 
 @RestController
 @RequestMapping("/api/public/review")
-@CrossOrigin(origins = "*", allowCredentials = "true")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PublicReviewController {
 
 	private ReviewService reviewService;

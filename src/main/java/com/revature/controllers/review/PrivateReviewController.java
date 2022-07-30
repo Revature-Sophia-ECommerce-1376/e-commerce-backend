@@ -22,7 +22,7 @@ import com.revature.services.ReviewService;
 
 @RestController
 @RequestMapping("/api/private/review")
-@CrossOrigin(origins = "*", allowCredentials = "true")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PrivateReviewController {
 
     private ReviewService reviewService;

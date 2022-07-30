@@ -21,7 +21,7 @@ import com.revature.services.StorageService;
 
 @RestController
 @RequestMapping("/api/admin/product" )
-@CrossOrigin(origins = "*", allowCredentials = "true")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AdminProductController {
 
     private final ProductService productService;

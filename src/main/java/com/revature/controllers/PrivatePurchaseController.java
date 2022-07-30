@@ -24,7 +24,7 @@ import com.revature.services.PurchaseService;
 
 @RestController
 @RequestMapping("api/private/purchases")
-@CrossOrigin(origins = "*", allowCredentials = "true")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PrivatePurchaseController {
 	
 	private final PurchaseService pserv;

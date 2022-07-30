@@ -24,7 +24,7 @@ import com.revature.services.UserService;
 
 @RestController
 @RequestMapping("/api/private/addresses")
-@CrossOrigin(origins = "*", allowCredentials = "true")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PrivateAddressController {
 	
 	private final AddressService aserv;

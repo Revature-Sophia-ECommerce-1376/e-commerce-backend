@@ -17,7 +17,7 @@ import com.revature.services.ProductService;
 
 @RestController
 @RequestMapping("/api/private/product" )
-@CrossOrigin(origins = "*", allowCredentials = "true")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PrivateProductController {
     
     private final ProductService productService;
