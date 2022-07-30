@@ -23,13 +23,13 @@ import com.revature.models.User;
 import com.revature.services.PurchaseService;
 
 @RestController
-@RequestMapping("api/purchases")
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:3000"}, allowCredentials = "true")
-public class PurchaseController {
+@RequestMapping("api/private/purchases")
+@CrossOrigin(origins = "*", allowCredentials = "true")
+public class PrivatePurchaseController {
 	
 	private final PurchaseService pserv;
 	
-	public PurchaseController(PurchaseService pserv) {
+	public PrivatePurchaseController(PurchaseService pserv) {
 		this.pserv = pserv;
 	}
 	

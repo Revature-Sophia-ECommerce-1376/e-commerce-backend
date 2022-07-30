@@ -27,6 +27,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import com.revature.controllers.review.PublicReviewController;
 import com.revature.dtos.ReviewRequest;
 import com.revature.models.Product;
 import com.revature.models.Review;
@@ -35,14 +36,14 @@ import com.revature.services.ReviewService;
 
 /**
  *
- * Unit tests for the {@link ReviewController} class.
+ * Unit tests for the {@link PublicReviewController} class.
  *
  * @see <a href=
  *      "https://thepracticaldeveloper.com/guide-spring-boot-controller-tests/#strategy-2-spring-mockmvc-example-with-webapplicationcontext">https://thepracticaldeveloper.com/guide-spring-boot-controller-tests/#strategy-2-spring-mockmvc-example-with-webapplicationcontext</a>
  *
  */
 @AutoConfigureJsonTesters
-@WebMvcTest(ReviewController.class)
+@WebMvcTest(PublicReviewController.class)
 class ReviewControllerTest {
 
 	@Autowired
@@ -61,7 +62,7 @@ class ReviewControllerTest {
 	private ReviewService rServ;
 
 	@InjectMocks
-	private ReviewController controller;
+	private PublicReviewController controller;
 
 	private final String MAPPING_ROOT = "/api/review";
 	private Review dummyReview;

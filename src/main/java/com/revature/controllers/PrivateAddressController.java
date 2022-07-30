@@ -23,14 +23,14 @@ import com.revature.services.AddressService;
 import com.revature.services.UserService;
 
 @RestController
-@RequestMapping("/api/addresses")
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:3000"}, allowCredentials = "true")
-public class AddressController {
+@RequestMapping("/api/private/addresses")
+@CrossOrigin(origins = "*", allowCredentials = "true")
+public class PrivateAddressController {
 	
 	private final AddressService aserv;
 	private final UserService userv;
 	
-	public AddressController(AddressService aserv, UserService userv) {
+	public PrivateAddressController(AddressService aserv, UserService userv) {
 		this.aserv = aserv;
 		this.userv = userv;
 	}
