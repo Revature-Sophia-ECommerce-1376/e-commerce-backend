@@ -1,6 +1,5 @@
 package com.revature.models;
 
-import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -10,6 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import java.sql.Timestamp;
 
 @Getter
@@ -59,6 +60,7 @@ public class Review {
     @NotNull    @NonNull
 
     private User user;
+    
     public Review(@NotBlank int stars, @Length(max = 100) String title, @Length(max = 400) String review, User user, Product product) {
 		super();
 		this.stars = stars;
