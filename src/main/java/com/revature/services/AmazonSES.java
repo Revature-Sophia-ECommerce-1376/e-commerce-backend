@@ -17,7 +17,7 @@ public class AmazonSES {
 	
 	final String SUBJECT = "Hello from AWS SES";
 	
-	final String HTMLBODY = "<h1>Please request your password</h1>"
+	final String HTMLBODY = "<h1>Please reset your password</h1>"
 			+ "<a href='http://localhost:8080/password-reset.html?token=$tokenValue>";
 	
 	final String TEXTBODY = "Please click the link below"
