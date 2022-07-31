@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .mvcMatchers("/auth/**").permitAll()
                 .mvcMatchers("/api/public/**").permitAll()
                 .mvcMatchers("/api/private/**").authenticated()
-                .mvcMatchers("/api/Admin/**").hasAuthority("admin")
+                .mvcMatchers("/api/admin/**").hasAuthority("admin")
                 .and().cors()
                 .and().oauth2ResourceServer().jwt();
         return http.build();
