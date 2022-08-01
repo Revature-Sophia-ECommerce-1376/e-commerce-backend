@@ -35,7 +35,7 @@ import com.revature.services.UserService;
 @AutoConfigureJsonTesters
 @WebMvcTest(UserController.class)
 @ContextConfiguration(classes = TestConfig.class)
-public class UserControllerTest {
+class UserControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
