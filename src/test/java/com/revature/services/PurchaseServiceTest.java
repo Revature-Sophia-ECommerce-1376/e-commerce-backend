@@ -143,5 +143,20 @@ class PurchaseServiceTest {
 			assertEquals(ProductNotFoundException.class, e.getClass());
 		}
 	}
+	
+	@Test
+	void testAdd_Failure_UserNotFound() {
+		int productId = this.dummyProduct.getId();
+		int userId = 404;
+		PurchaseRequest request = new PurchaseRequest(productId, userId, 1);
+		given(this.productServ.findById(productId)).willReturn(Optional.of(this.dummyProduct));
+		given(this.uServ.findById(userId)).willReturn(Optional.empty());
+		try {
+			this.purchaseServ.add(request, userId);
+			fail("Expected UserNotFoundException to be thrown");
+		} catch (Exception e) {
+			assertEquals(UserNotFoundException.class, e.getClass());
+		}
+	}
 
 }
