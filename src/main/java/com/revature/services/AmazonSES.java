@@ -10,18 +10,23 @@ import com.amazonaws.services.simpleemail.model.Message;
 import com.amazonaws.services.simpleemail.model.SendEmailRequest;
 import com.amazonaws.services.simpleemail.model.SendEmailResult;
 
-
+/**
+ * This class uses AWS's SDK and AWS SES to send an email to a client when called. 
+ * 
+ * @author andrewhughes
+ */
 public class AmazonSES {
 
+	// The sender of emails
 	final String FROM = "andyhughes39@gmail.com";
 	
 	final String SUBJECT = "Hello from AWS SES";
 	
 	final String HTMLBODY = "<h1>Please reset your password</h1>"
-			+ "<a href='http://localhost:8080/password-reset.html?token=$tokenValue>";
+			+ "<a href='http://localhost:4200/password-reset?token=$tokenValue>";
 	
 	final String TEXTBODY = "Please click the link below"
-			+ "http://localhost:8080/password-reset.html?token=$tokenValue";
+			+ "http://localhost:4200/password-reset?token=$tokenValue";
 	
 	
 
@@ -33,6 +38,7 @@ public class AmazonSES {
 	          AmazonSimpleEmailServiceClientBuilder.standard()
 	            .withRegion(Regions.US_EAST_1).build();
 	      
+	      // replace all variables with method parameters
 	      String htmlBodyWithToken = HTMLBODY.replace("$tokenValue", token);
 	             htmlBodyWithToken = htmlBodyWithToken.replace("$firstName", firstName);
 	        
@@ -53,12 +59,14 @@ public class AmazonSES {
 	                  .withCharset("UTF-8").withData(SUBJECT)))
 	          .withSource(FROM);
 
+	      // send the email and obtain a result
 	      SendEmailResult result = client.sendEmail(request); 
 	      if(result != null && (result.getMessageId()!=null && !result.getMessageId().isEmpty()))
 	      {
 	          returnValue = true;
 	      }
 	      
+	      // return the result
 	      return returnValue;
 	  }
 	

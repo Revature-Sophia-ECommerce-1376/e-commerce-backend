@@ -13,4 +13,6 @@ spring:
     password: password
   h2:
     console.enabled: true
-  tokenSecret: jf9i4jgu83nfl0jfu57ejf7    
+  tokenSecret: 847C5A8C23A73F66AB8C2B2B4A24BB09A5CDDDF2FFA1E1490223257024B25CB5
+
+  

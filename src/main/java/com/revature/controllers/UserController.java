@@ -2,16 +2,20 @@ package com.revature.controllers;
 
 import java.util.Optional;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.annotations.Authorized;
+import com.revature.models.OperationStatusModel;
+import com.revature.models.PasswordResetModel;
 import com.revature.models.User;
 import com.revature.services.UserService;
 
@@ -40,4 +44,23 @@ public class UserController {
 	public ResponseEntity<User> update(@RequestBody User user) {
 		return ResponseEntity.ok(userv.save(user));
 	}
+	
+	@PostMapping(path="/password-reset-request",
+    		consumes= {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public OperationStatusModel resetPassword(@RequestBody PasswordResetModel passwordResetModel) {
+    	OperationStatusModel returnValue = new OperationStatusModel();
+
+    	boolean operationResult = userv.resetPassword(
+    			passwordResetModel.getToken(), passwordResetModel.getPassword()
+    	);
+    	
+    	returnValue.setOperationName(RequestOperationName.PASSWORD_RESET.toString());
+    	returnValue.setOperationResult(RequestOperationStatus.ERROR.name());
+    	
+    	if(operationResult) {
+    		returnValue.setOperationResult(RequestOperationStatus.SUCCESS.toString());
+    	}
+    	return returnValue;
+    	
+    }
 }

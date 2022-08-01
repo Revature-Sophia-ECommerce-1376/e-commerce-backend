@@ -6,6 +6,6 @@ import com.revature.models.PasswordResetToken;
 
 public interface PasswordResetTokenRepository extends CrudRepository<PasswordResetToken, Long>{
 	
-	
+	PasswordResetToken findByToken(String token);
 	
 }
