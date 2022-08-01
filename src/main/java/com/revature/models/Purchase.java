@@ -17,7 +17,7 @@ import java.util.Objects;
 @ToString
 @Entity
 @NoArgsConstructor
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @Table(name = "purchases")
