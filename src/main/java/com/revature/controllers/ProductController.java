@@ -27,6 +27,7 @@ import com.revature.exceptions.InvalidProductInputException;
 import com.revature.exceptions.InvalidRoleException;
 import com.revature.services.StorageService;
 
+
 @RestController
 @RequestMapping("/api/product" )
 @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:3000"}, allowCredentials = "true")
@@ -39,7 +40,7 @@ public class ProductController {
         this.productService = productService;
         this.s3Srv = storageService;
     }
-
+    
     @GetMapping
     public ResponseEntity<List<Product>> getInventory() {
         return ResponseEntity.ok(productService.findAll());
@@ -52,20 +53,33 @@ public class ProductController {
         return optional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
     
+    /**
+     * create new product or update information to the existing product
+     * 
+     * @param createupdateRequest an object contains the information about
+     * product (id, quantity, price, description, image, name)
+     * 
+     * @throws InvalidProductInputException if the implementation detect the 
+     * inputs are not valid
+     * 
+     * @return Product - new product object or updated product object
+     */
     @Authorized
     @AuthorizedAdmin
     @PutMapping("/create-update")
     public ResponseEntity<Product> insertAndUpdate(@RequestBody CreateUpdateRequest createupdateRequest) {
+    	// get current product Id
     	int id =createupdateRequest.getId();
+    	// get product by Id
     	Optional<Product> currPd = productService.findById(id);
-    	
+    	// get updated information
     	int quantity = createupdateRequest.getQuantity();	
     	double price = createupdateRequest.getPrice();
     	String description = createupdateRequest.getDescription();
     	String image = createupdateRequest.getImage();
     	String name = createupdateRequest.getName();
     	
-     
+    	// update product if the product exist in db
     	if(currPd.isPresent()) {
     	
 				Product updatePd = currPd.get();
@@ -93,6 +107,7 @@ public class ProductController {
 				
 				return ResponseEntity.ok(productService.save(updatePd));
     	}
+    	// instantiate the product and insert to db
     	Product newPd;
 		try {
 			newPd = new Product(quantity,price,description,image,name);
@@ -151,23 +166,38 @@ public class ProductController {
 
         return ResponseEntity.ok(optional.get());
     }
+    // 
+    /**
+     * Creates a list of product that partially match the name of product
+     * 
+     * @param name - the name of product
+     * 
+     * @return List<Product> - a list of products that matching the name
+     */
     @GetMapping("/partial-search/{name}")
     public ResponseEntity<List<Product>> getProductsByNameContains(@PathVariable("name") String name) {
     	
         return ResponseEntity.ok(productService.findByNameContains(name));
     }
+    /**
+     * create a list product sorted by the range of price
+     * 
+     * @param priceRangeRequest - an object contains the range of the price(minPrice, maxPrice)
+     * 
+     * @return List<Product> - a list of product within the price range
+     */
     @Authorized
     @GetMapping("/price-range")
     public ResponseEntity<List<Product>> getProductsByPriceRange(@RequestBody PriceRangeRequest priceRangeRequest) {
     	
         return ResponseEntity.ok(productService.findByPriceRange(priceRangeRequest.getMinPrice(),priceRangeRequest.getMaxPrice()));
     }
-//    @Authorized
-//    @GetMapping("/price-range")
-//    public ResponseEntity<List<Product>> getProductsByPriceRange(@RequestParam("minPrice") double minPrice,@RequestParam("maxPrice") double maxPrice ) {
-//    	
-//        return ResponseEntity.ok(productService.findByPriceRange(minPrice,maxPrice));
-//    }
+
+    /**
+     * create a list of product sorted by rating(average of star) in descending order
+     * 
+     * @return List<Product> - a list of product sorting by starts of product
+     */
     @Authorized
     @GetMapping("/filter-rating")
     public ResponseEntity<List<Product>> filterByRating() {
