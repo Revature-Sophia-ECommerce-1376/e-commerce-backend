@@ -13,7 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
  *
  */
 @ExtendWith(MockitoExtension.class)
-public class ExceptionsTest {
+class ExceptionsTest {
 	
 	@Test
 	void testAddressNotFound_Success_NoArgs() {
