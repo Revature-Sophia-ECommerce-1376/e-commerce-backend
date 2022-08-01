@@ -1,15 +1,35 @@
 package com.revature.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -18,6 +38,7 @@ import java.util.Set;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Table(
         name = "users",
         uniqueConstraints = @UniqueConstraint(columnNames={"email"})
@@ -50,11 +71,13 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "user_id")
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Purchase> purchases = new LinkedHashSet<>();
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "user_id")
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Review> reviews = new LinkedHashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
@@ -64,12 +87,6 @@ public class User {
             inverseJoinColumns = { @JoinColumn(name = "address_id") }
     )
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Address> addresses = new HashSet<>();
-
-
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }
