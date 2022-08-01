@@ -53,6 +53,7 @@ public class UserControllerTest {
 	private UserController controller;
 
 	private final String MAPPING_ROOT = "/api/users";
+	private final String TOKEN = "Bearer token";
 	private User dummyUser;
 
 	@BeforeEach
@@ -71,7 +72,7 @@ public class UserControllerTest {
 		given(this.uServ.findById(userId)).willReturn(Optional.of(this.dummyUser));
 
 		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/" + userId).accept(MediaType.APPLICATION_JSON)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -85,7 +86,7 @@ public class UserControllerTest {
 		given(this.uServ.findById(id)).willReturn(Optional.empty());
 
 		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/" + id).accept(MediaType.APPLICATION_JSON)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
@@ -98,7 +99,7 @@ public class UserControllerTest {
 		given(this.uServ.findByEmail(email)).willReturn(Optional.of(this.dummyUser));
 
 		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/email/" + email)
-				.accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		this.dummyUser.setPassword("");
@@ -113,7 +114,7 @@ public class UserControllerTest {
 		given(this.uServ.findByEmail(email)).willThrow(new UserNotFoundException("Could not find a user with email " + email));
 
 		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/email/" + email)
-				.accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
@@ -131,7 +132,7 @@ public class UserControllerTest {
 		String jsonContent = this.jsonUserRequest.write(newUser).getJson();
 		MockHttpServletRequestBuilder request = put(this.MAPPING_ROOT).contentType(MediaType.APPLICATION_JSON)
 				.content(jsonContent).sessionAttr("user", this.dummyUser)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
