@@ -48,14 +48,14 @@ public class AuthController {
 
         return ResponseEntity.ok(optional.get());
     }
+        
     
-    @GetMapping("/password-reset-request")
-    public String getPassword() {
-    	return "Hellllllo";
-    }
-    
-    /*
-     * http://localhost:8080/auth/password-reset-request
+    /**
+     * post http://localhost:8080/auth/password-reset-request
+     * Takes email from request body and sends to authService.requestPasswordReset.
+     * 
+     * @param passwordResetRequestModel
+     * @return Json object with OperationResult of success or failure
      */
     @PostMapping(path="/password-reset-request", produces= {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
     		consumes= {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})

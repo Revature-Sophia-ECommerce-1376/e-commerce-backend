@@ -12,6 +12,8 @@ import com.amazonaws.services.simpleemail.model.SendEmailResult;
 
 /**
  * This class uses AWS's SDK and AWS SES to send an email to a client when called. 
+ * Sends a Jwt token as a query string in a link. 
+ * For example /password-reset?token=$tokenValue
  * 
  * @author andrewhughes
  */
@@ -29,7 +31,18 @@ public class AmazonSES {
 			+ "http://localhost:4200/password-reset?token=$tokenValue";
 	
 	
-
+	/**
+	 * Creates an AmazonSimpleEmailService using AWS sdk and .aws secret on the host's
+	 * machine. 
+	 * 
+	 * Replaces the class variables with method parameters and attempts to send the 
+	 * email with jwt token as query param.
+	 * 
+	 * @param firstName
+	 * @param email
+	 * @param token
+	 * @return
+	 */
 	public boolean sendPasswordResetRequest(String firstName, String email, String token)
 	  {
 	      boolean returnValue = false;

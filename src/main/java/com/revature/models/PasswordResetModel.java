@@ -1,5 +1,10 @@
 package com.revature.models;
 
+/**
+ * Properties: String token and String password
+ * @author andrewhughes
+ *
+ */
 public class PasswordResetModel {
 
 	private String token;

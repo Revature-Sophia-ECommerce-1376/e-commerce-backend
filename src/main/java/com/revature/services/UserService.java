@@ -4,9 +4,10 @@ import com.revature.models.PasswordResetToken;
 import com.revature.models.User;
 import com.revature.repositories.PasswordResetTokenRepository;
 import com.revature.repositories.UserRepository;
-import com.revature.utilities.Utils;
+import com.revature.utilities.JwtTokenManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
@@ -23,12 +24,14 @@ public class UserService {
 
     private final UserRepository userRepository;
     
-    @Autowired
+
     private final PasswordResetTokenRepository passwordResetTokenRepository;
     
+    @Autowired
+    private ApplicationContext context;
     
-    
-    
+    @Autowired
+    private JwtTokenManager jwtTokenManager;
 
     
     public UserService(UserRepository userRepository, 
@@ -49,6 +52,14 @@ public class UserService {
         return userRepository.save(user);
     }
     
+    /**
+     * Finds a User by email and creates a jwt token with user.
+     * Also saves the jwt token in the passwordresettable and sends an email with
+     * a link to reset their password along with the jwt token. 
+     * 
+     * @param email
+     * @return boolean
+     */
     public boolean requestPasswordReset(String email) {
     	
     	boolean returnValue = false;
@@ -59,9 +70,9 @@ public class UserService {
     		return returnValue;
     	}
     	User userObj = user.get();
-    	String token = new Utils().generatePasswordResetToken(userObj);
+    	String token = new JwtTokenManager().generatePasswordResetToken(userObj);
     	
-    	// Entity
+    	// Entity used to store jwt
     	PasswordResetToken passwordResetToken = new PasswordResetToken();
     	passwordResetToken.setToken(token);
     	passwordResetToken.setUserDetails(user.get());
@@ -76,11 +87,19 @@ public class UserService {
     }
     
     
-    
+    /**
+     * Checks that token is valid and is found in passwordresettable database table.
+     * Creates new password for user and encodes it using PBKDF2 algorithm.
+     * Finally it deletes the jwt from the passwordresettable database table.
+     * 
+     * @param token
+     * @param password
+     * @return boolean
+     */
     public boolean resetPassword(String token, String password) {
     	boolean returnValue = false;
     	
-    	if(Utils.hasTokenExpired(token)) {
+    	if(jwtTokenManager.hasTokenExpired(token)) {
     		return false;
     	}
     	
@@ -100,20 +119,23 @@ public class UserService {
 		try {
 			factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	byte[] hash = {};
 		try {
 			hash = factory.generateSecret(spec).getEncoded();
 		} catch (InvalidKeySpecException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		// convert byte[] to string
     	String newPassword = new String();
     	for(int i = 0; i < hash.length; i++) {
     		newPassword += hash[i];
     	}
+    	// end of encrypting password
+    	
+    	// look up User from User stored in token, set new password and update user table
     	User user = passwordResetToken.getUserDetails();
     	user.setPassword(newPassword);
     	User savedUser = userRepository.save(user);

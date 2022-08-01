@@ -8,6 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+/**
+ * Entity for a PasswordResetToken
+ * Properties: int id, String token, User userDetails
+ * @author andrewhughes
+ *
+ */
+
 @Entity(name = "password_reset_tokens")
 public class PasswordResetToken implements Serializable {
 

@@ -39,12 +39,22 @@ public class UserController {
 		return ResponseEntity.ok(optionalUser.get());
 	}
 	
+	
 	@Authorized
 	@PutMapping
 	public ResponseEntity<User> update(@RequestBody User user) {
 		return ResponseEntity.ok(userv.save(user));
 	}
 	
+	
+	/**
+	 * post http://localhost:8080/password-reset-request
+	 * Accepts a PasswordResetModel in request body.
+	 * Sends token and new password to UserService to set the new password
+	 * 
+	 * @param passwordResetModel
+	 * @return Json response with result of the operation.
+	 */
 	@PostMapping(path="/password-reset-request",
     		consumes= {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public OperationStatusModel resetPassword(@RequestBody PasswordResetModel passwordResetModel) {
