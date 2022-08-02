@@ -195,7 +195,7 @@ class ModelsConstructorTests {
 		assertEquals("state", testAddress.getState());
 		assertEquals("zip", testAddress.getZip());
 		assertEquals("city", testAddress.getCity());
-		assertEquals(new User(), testAddress.getUsers());
+		assertEquals(new HashSet<User>(), testAddress.getUsers());
 		
 	}
 	@Test
