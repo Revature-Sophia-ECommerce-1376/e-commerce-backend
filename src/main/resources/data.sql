@@ -37,6 +37,27 @@ INSERT INTO products (product_id, quantity, price, description, image, "name") V
     'A nice coat',
     'https://www.pngarts.com/files/3/Women-Jacket-PNG-High-Quality-Image.png',
     'Coat'
+),
+(
+    'Red and green Revature Sneakers with extra room for the toes', 
+    'https://a.1stdibscdn.com/archivesE/upload/1121209/f_3597242/3597242_z.jpg', 
+    'Revature Sneakers', 
+    29.99, 
+    500
+),
+(
+    '16oz Cup Insulated Stainless Steel Double Walled Coffee Travel Mug', 
+    'https://i5.walmartimages.com/asr/a44828d4-922d-4e12-82d5-20f31ac13c5a_1.9db4105357a927a4fcf418c7e1c60095.jpeg', 
+    'Coffee Travel Mug', 
+    1.99,
+    2000
+),
+(
+    'An ornage stress ball to toss as the source of your irritation ', 
+    'https://manasah.azureedge.net/pictures/0030237_giftex-100pcs-stress-balls-orange-7-cm_510.jpeg', 
+    'Stress Ball (Orange)', 
+    1.99, 
+    2000)
 );
 
 
