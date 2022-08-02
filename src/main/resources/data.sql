@@ -1,5 +1,4 @@
-INSERT INTO products (product_id, quantity, price, description, image, "name") VALUES (
-    1,
+INSERT INTO products (quantity, price, description, image, "name") VALUES (
     10,
     20.00,
     'A nice pair of headphones',
@@ -7,7 +6,6 @@ INSERT INTO products (product_id, quantity, price, description, image, "name") V
     'Headphones'
 ),
 (
-    2,
     5,
     45.00,
     'A nice TeeShirt',
@@ -15,7 +13,6 @@ INSERT INTO products (product_id, quantity, price, description, image, "name") V
     'TeeShirt'
 ),
 (
-    3,
     20,
     2.50,
     'A reusable shopping bag',
@@ -23,7 +20,6 @@ INSERT INTO products (product_id, quantity, price, description, image, "name") V
     'Shopping Bag'
 ),
 (
-    4,
     20,
     10.00,
     'A fancy cap for a fancy person',
@@ -31,7 +27,6 @@ INSERT INTO products (product_id, quantity, price, description, image, "name") V
     'Baseball Cap'
 ),
 (
-    5,
     3,
     80.00,
     'A nice coat',
@@ -39,25 +34,25 @@ INSERT INTO products (product_id, quantity, price, description, image, "name") V
     'Coat'
 ),
 (
+     500,
+     29.99,
     'Red and green Revature Sneakers with extra room for the toes', 
     'https://a.1stdibscdn.com/archivesE/upload/1121209/f_3597242/3597242_z.jpg', 
-    'Revature Sneakers', 
-    29.99, 
-    500
+    'Revature Sneakers'
 ),
 (
+    2000,
+    1.99,
     '16oz Cup Insulated Stainless Steel Double Walled Coffee Travel Mug', 
     'https://i5.walmartimages.com/asr/a44828d4-922d-4e12-82d5-20f31ac13c5a_1.9db4105357a927a4fcf418c7e1c60095.jpeg', 
     'Coffee Travel Mug', 
-    1.99,
-    2000
 ),
 (
+    500,
+    1.99,
     'An ornage stress ball to toss as the source of your irritation ', 
     'https://manasah.azureedge.net/pictures/0030237_giftex-100pcs-stress-balls-orange-7-cm_510.jpeg', 
-    'Stress Ball (Orange)', 
-    1.99, 
-    2000)
+    'Stress Ball (Orange)'
 );
 
 
