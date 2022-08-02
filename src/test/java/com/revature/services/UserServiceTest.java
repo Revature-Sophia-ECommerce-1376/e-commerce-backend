@@ -36,12 +36,11 @@ class UserServiceTest {
 		this.dummyUser = new User(1, "dummy.admin@revature.com", "asdf", "Dummy", "User", "Admin", null, null, null);
 	}
 
-@AfterEach
+	@AfterEach
 	void tearDown() throws Exception {
 		// GC the dummy user
 		this.dummyUser = null;
 	}
-
 
 	@Test
 	void testFindByCredentials() {
