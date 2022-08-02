@@ -48,6 +48,10 @@ public class StorageService {
 			File fileObj = convertMultipartToFile(file);
 			fileName = file.getOriginalFilename();
 			s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj));
+			
+			/**File.delete(path) is preferred option, but its main advantage is exception handling
+			 * We have custom exception handling and do not need File.delete()
+			 */
 			if (fileObj.delete()) {
 				log.info(fileName + "was deleted after sending to s3");
 			}
