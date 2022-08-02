@@ -25,7 +25,12 @@ class DtoConstructorTests {
 	@Test
 	void testUserRequestAllArgs() {
 		UserRequest testReq = new UserRequest(1, "email@email", "password", "First", "Last", "ADMIN");
+		assertEquals(1, testReq.getId());
+		assertEquals("email@email", testReq.getEmail());
 		assertEquals("password", testReq.getPassword());
+		assertEquals("First", testReq.getFirstName());
+		assertEquals("Last", testReq.getLastName());
+		assertEquals("ADMIN", testReq.getRole());
 	}
 	@Test
 	void testUserRequestNoArgs() {

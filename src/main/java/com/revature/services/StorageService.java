@@ -43,7 +43,6 @@ public class StorageService {
 	 * @return HttpResponse with image file name or throws FileUploadException in response
 	 */
 	public ResponseEntity<String> uploadFile(MultipartFile file) {
-		System.out.println(bucketName);
 		String fileName = "";
 		try {
 			File fileObj = convertMultipartToFile(file);
