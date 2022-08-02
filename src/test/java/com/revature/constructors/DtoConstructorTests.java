@@ -23,12 +23,13 @@ public class DtoConstructorTests {
 	@Test
 	void testUserRequestNoArgs() {
 		UserRequest testReq = new UserRequest();
+		testReq.setId(0);
 		assertEquals(0, testReq.getId());
 	}
 	@Test
 	void testReviewRequestAllArgs() {
 		ReviewRequest testReq = new ReviewRequest(1, 1, 4, "Cool", "Good stuff");
-		assertEquals("cool", testReq.getTitle());
+		assertEquals("Cool", testReq.getTitle());
 	}
 	@Test
 	void testReviewRequestNoArgs() {
@@ -84,17 +85,19 @@ public class DtoConstructorTests {
 	@Test
 	void LoginRequestNoArgs() {
 		LoginRequest testReq = new LoginRequest();
-		assertEquals(null, testReq.getPassword());
+		testReq.setPassword("password");
+		assertEquals("password", testReq.getPassword());
 	}
 	@Test
 	void CreateUpdateRequestAllArgs() {
-		CreateUpdateRequest testReq = new CreateUpdateRequest(1, 10, 12.0, "More Headphones", "Url", "Headpohones");
+		CreateUpdateRequest testReq = new CreateUpdateRequest(1, 10, 12.0, "More Headphones", "Url", "Headphones");
 		assertEquals("Headphones", testReq.getName());
 	}
 	@Test
 	void CreateUpdateRequestNoArgs() {
 		CreateUpdateRequest testReq = new CreateUpdateRequest();
-		assertEquals(null, testReq.getName());
+		testReq.setName("Cool Name");
+		assertEquals("Cool Name", testReq.getName());
 	}
 	@Test
 	void AddressRequestAllArgs() {
@@ -104,6 +107,7 @@ public class DtoConstructorTests {
 	@Test
 	void AddressRequestNoArgs() {
 		AddressRequest testReq = new AddressRequest();
-		assertEquals(null, testReq.getStreet());
+		testReq.setStreet("123 apple");
+		assertEquals("123 apple", testReq.getStreet());
 	}
 }
