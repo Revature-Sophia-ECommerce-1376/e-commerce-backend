@@ -28,7 +28,7 @@ import com.revature.services.UserService;
  */
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://localhost:4200", "https://revazon-image-bucket.s3.amazonaws.com"})
 public class UserController {
 
 	private final UserService userv;

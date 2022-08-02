@@ -6,9 +6,12 @@ import com.openpojo.business.annotation.BusinessKey;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@RequiredArgsConstructor
 @AllArgsConstructor
 public class ReviewRequest {
 	@BusinessKey
@@ -17,8 +20,10 @@ public class ReviewRequest {
 	private int productId;
 	@BusinessKey
 	private int stars;
+	@NonNull
 	@BusinessKey
 	private String title;
+	@NonNull
 	@BusinessKey
 	private String review;
 	
