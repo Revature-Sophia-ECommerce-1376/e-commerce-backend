@@ -1,7 +1,7 @@
 package com.revature.constructors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,9 +19,12 @@ class DtoConstructorTests {
 	@Test
 	void testUserRequiredArgs() {
 		UserRequest testReq = new UserRequest("apple@email", "First", "Last");
+		assertNull(testReq.getId());
 		assertEquals("apple@email", testReq.getEmail());
+		assertNull(testReq.getPassword());
 		assertEquals("First", testReq.getFirstName());
 		assertEquals("Last", testReq.getLastName());
+		assertNull(testReq.getRole());
 	}
 	@Test
 	void testUserRequestAllArgs() {
@@ -46,6 +49,9 @@ class DtoConstructorTests {
 	@Test
 	void testReviewRequestRequiredArgs() {
 		ReviewRequest testReq = new ReviewRequest("title", "review");
+		assertEquals(0,testReq.getUserId());
+		assertEquals(0,testReq.getProductId());
+		assertEquals(0, testReq.getStars());
 		assertEquals("title", testReq.getTitle());
 		assertEquals("review", testReq.getReview());
 	}
@@ -101,6 +107,7 @@ class DtoConstructorTests {
 	@Test
 	void ProductInfoRequiredArgs() {
 		ProductInfo testReq = new ProductInfo(1, 10, "desc", "url", "name");
+		assertEquals(0, testReq.getId());
 		assertEquals(1, testReq.getQuantity());
 		assertEquals(10, testReq.getPrice());
 		assertEquals("desc", testReq.getDescription());

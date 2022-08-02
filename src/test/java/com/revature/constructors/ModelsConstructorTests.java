@@ -1,9 +1,8 @@
 package com.revature.constructors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,11 +19,15 @@ class ModelsConstructorTests {
 	@Test
 	void testNewUserRequiredArgs() {
 		User testUser = new User("email", "pass", "first", "last", "customer");
+		assertEquals(0, testUser.getId());
 		assertEquals("email", testUser.getEmail());
 		assertEquals("pass", testUser.getPassword());
 		assertEquals("first", testUser.getFirstName());
 		assertEquals("last", testUser.getLastName());
 		assertEquals("customer", testUser.getRole());
+		assertEquals(new HashSet<Purchase>(), testUser.getPurchases());
+		assertEquals(new HashSet<Review>(), testUser.getReviews());
+		assertEquals(new HashSet<Address>(), testUser.getAddresses());
 	}
 	@Test
 	void testNewUserAllArgs(){
@@ -57,11 +60,14 @@ class ModelsConstructorTests {
 	@Test
 	void testProductRequieredArgs(){
 		Product testProduct = new Product(1, 10.2, "desc", "url", "name");
+		assertEquals(0, testProduct.getId());
 		assertEquals(1, testProduct.getQuantity());
 		assertEquals(10.2, testProduct.getPrice());
 		assertEquals("desc", testProduct.getDescription());
 		assertEquals("url", testProduct.getImage());
 		assertEquals("name", testProduct.getName());
+		assertEquals(new HashSet<Review>(), testProduct.getReviews());
+		assertEquals(new HashSet<Purchase>(), testProduct.getPurchases());
 	}
 	@Test
 	void testNewProductAllArgs() {
@@ -106,16 +112,22 @@ class ModelsConstructorTests {
 		User testUser = new User(1, "email@email.com", "Password","First" , "Last", "Customer", new HashSet<Purchase>(), new HashSet<Review>(), new HashSet<Address>());
 		Product testProduct = new Product(2, 3.25, "A widget", "Random Url" , "widget", new HashSet<Review>(), new HashSet<Purchase>());
 		Review testReview = new Review(3, "title", "review", testUser, testProduct);
+		assertEquals(0, testReview.getId());
 		assertEquals(3, testReview.getStars());
 		assertEquals("title", testReview.getTitle());
 		assertEquals("review", testReview.getReview());
+		assertNull(testReview.getPosted());
+		assertNull(testReview.getUpdated());
 		assertEquals(testProduct, testReview.getProduct());
 		assertEquals(testUser, testReview.getUser());
 		
 		testReview = new Review(3, "title", "review", testProduct, testUser);
+		assertEquals(0, testReview.getId());
 		assertEquals(3, testReview.getStars());
 		assertEquals("title", testReview.getTitle());
 		assertEquals("review", testReview.getReview());
+		assertNull(testReview.getPosted());
+		assertNull(testReview.getUpdated());
 		assertEquals(testProduct, testReview.getProduct());
 		assertEquals(testUser, testReview.getUser());
 		
@@ -177,10 +189,13 @@ class ModelsConstructorTests {
 	@Test
 	void testNewAddressRequired() {
 		Address testAddress = new Address("street", "city", "zip", "state");
+		assertEquals(0, testAddress.getId());
 		assertEquals("street", testAddress.getStreet());
+		assertNull(testAddress.getSecondary());
 		assertEquals("state", testAddress.getState());
 		assertEquals("zip", testAddress.getZip());
 		assertEquals("city", testAddress.getCity());
+		assertEquals(new User(), testAddress.getUsers());
 		
 	}
 	@Test
