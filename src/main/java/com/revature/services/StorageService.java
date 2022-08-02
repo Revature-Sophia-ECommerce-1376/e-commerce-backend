@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class StorageService {
 
-	@Value("$(application.bucket.name)")
+	@Value("${application.bucket.name}")
 	private String bucketName;
 
 	@Autowired
