@@ -19,7 +19,7 @@ class DtoConstructorTests {
 	@Test
 	void testUserRequiredArgs() {
 		UserRequest testReq = new UserRequest("apple@email", "First", "Last");
-		assertEquals("email@email", testReq.getEmail());
+		assertEquals("apple@email", testReq.getEmail());
 		assertEquals("First", testReq.getFirstName());
 		assertEquals("Last", testReq.getLastName());
 	}
@@ -46,8 +46,8 @@ class DtoConstructorTests {
 	@Test
 	void testReviewRequestRequiredArgs() {
 		ReviewRequest testReq = new ReviewRequest("title", "review");
-		assertEquals("Cool", testReq.getTitle());
-		assertEquals("Good stuff", testReq.getReview());
+		assertEquals("title", testReq.getTitle());
+		assertEquals("review", testReq.getReview());
 	}
 	@Test
 	void testReviewRequestAllArgs() {
@@ -101,11 +101,11 @@ class DtoConstructorTests {
 	@Test
 	void ProductInfoRequiredArgs() {
 		ProductInfo testReq = new ProductInfo(1, 10, "desc", "url", "name");
-		assertEquals(5, testReq.getQuantity());
-		assertEquals(10.25, testReq.getPrice());
-		assertEquals("nice headphones", testReq.getDescription());
-		assertEquals("randomUrl", testReq.getImage());
-		assertEquals("Headphones", testReq.getName());
+		assertEquals(1, testReq.getQuantity());
+		assertEquals(10, testReq.getPrice());
+		assertEquals("desc", testReq.getDescription());
+		assertEquals("url", testReq.getImage());
+		assertEquals("name", testReq.getName());
 	}
 	@Test
 	void ProductInfoAllArgs() {
