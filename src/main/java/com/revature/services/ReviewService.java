@@ -82,8 +82,7 @@ public class ReviewService {
 
 			return review;
 		} else {
-			throw new ProductNotFoundException(
-					String.format("No product found with ID %d", reviewRequest.getProductId()));
+			throw new ProductNotFoundException(String.format("No product found with ID %d", reviewRequest.getProductId()));
 		}
 	}
 
