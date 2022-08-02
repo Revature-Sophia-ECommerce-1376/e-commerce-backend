@@ -138,7 +138,7 @@ public class ReviewService {
 	public Review findById(int id) {
 		Optional<Review> optionalReview = reviewRepository.findById(id);
 		if (!optionalReview.isPresent()) {
-			throw new ReviewNotFoundException(String.format("No review found with ID %d", id));
+			throw new ReviewNotFoundException(String.format("findById(): No review found with ID %d", id));
 		} else {
 			return optionalReview.get();
 		}
@@ -181,7 +181,7 @@ public class ReviewService {
 				throw new UnauthorizedReviewAccessException("You are not authorized to modify this review.");
 			}
 		} else {
-			throw new ReviewNotFoundException(String.format("No review found with ID %d", id));
+			throw new ReviewNotFoundException(String.format("update(): No review found with ID %d", id));
 		}
 	}
 
@@ -213,7 +213,7 @@ public class ReviewService {
 																												// review
 			}
 		} else {
-			throw new ReviewNotFoundException(String.format("No review found with ID %d", id));
+			throw new ReviewNotFoundException(String.format("delete(): No review found with ID %d", id));
 		}
 	}
 }
