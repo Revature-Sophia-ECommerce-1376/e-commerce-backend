@@ -19,9 +19,12 @@ class ModelsConstructorTests {
 	
 	@Test
 	void testNewUserRequiredArgs() {
-		assertThrows(NullPointerException.class, ()->{
-			User testUser = new User(null, null, null, null, null);
-		});
+		User testUser = new User("email", "pass", "first", "last", "customer");
+		assertEquals("email", testUser.getEmail());
+		assertEquals("pass", testUser.getPassword());
+		assertEquals("first", testUser.getFirstName());
+		assertEquals("last", testUser.getLastName());
+		assertEquals("customer", testUser.getRole());
 	}
 	@Test
 	void testNewUserAllArgs(){
@@ -50,6 +53,15 @@ class ModelsConstructorTests {
 		assertEquals(new HashSet<Purchase>(), testUser.getPurchases());
 		assertEquals(new HashSet<Review>(), testUser.getReviews());
 		assertEquals(new HashSet<Address>(), testUser.getAddresses());
+	}
+	@Test
+	void testProductRequieredArgs(){
+		Product testProduct = new Product(1, 10.2, "desc", "url", "name");
+		assertEquals(1, testProduct.getQuantity());
+		assertEquals(10.2, testProduct.getPrice());
+		assertEquals("desc", testProduct.getDescription());
+		assertEquals("url", testProduct.getImage());
+		assertEquals("name", testProduct.getName());
 	}
 	@Test
 	void testNewProductAllArgs() {
@@ -91,9 +103,22 @@ class ModelsConstructorTests {
 	}
 	@Test
 	void testNewReviewRequiredArgs() {
-		assertThrows(NullPointerException.class, () ->{
-			Review testReview = new Review(0, 0, null, null, null, null, null, null);
-		});
+		User testUser = new User(1, "email@email.com", "Password","First" , "Last", "Customer", new HashSet<Purchase>(), new HashSet<Review>(), new HashSet<Address>());
+		Product testProduct = new Product(2, 3.25, "A widget", "Random Url" , "widget", new HashSet<Review>(), new HashSet<Purchase>());
+		Review testReview = new Review(3, "title", "review", testUser, testProduct);
+		assertEquals(3, testReview.getStars());
+		assertEquals("title", testReview.getTitle());
+		assertEquals("review", testReview.getReview());
+		assertEquals(testProduct, testReview.getProduct());
+		assertEquals(testUser, testReview.getUser());
+		
+		testReview = new Review(3, "title", "review", testProduct, testUser);
+		assertEquals(3, testReview.getStars());
+		assertEquals("title", testReview.getTitle());
+		assertEquals("review", testReview.getReview());
+		assertEquals(testProduct, testReview.getProduct());
+		assertEquals(testUser, testReview.getUser());
+		
 	}
 	@Test
 	void testNewReviewAllArgs() {
@@ -151,9 +176,12 @@ class ModelsConstructorTests {
 	}
 	@Test
 	void testNewAddressRequired() {
-		assertThrows(NullPointerException.class, ()->{
-			Address testAddress = new Address(0, null, null, null, null, null, null);
-		});
+		Address testAddress = new Address("street", "city", "zip", "state");
+		assertEquals("street", testAddress.getStreet());
+		assertEquals("state", testAddress.getState());
+		assertEquals("zip", testAddress.getZip());
+		assertEquals("city", testAddress.getCity());
+		
 	}
 	@Test
 	void testNewAddressAllArgs() {

@@ -18,9 +18,10 @@ import com.revature.dtos.UserRequest;
 class DtoConstructorTests {
 	@Test
 	void testUserRequiredArgs() {
-		assertThrows(NullPointerException.class, () ->{			
-			UserRequest testReq = new UserRequest(null, null, null);
-		});
+		UserRequest testReq = new UserRequest("apple@email", "First", "Last");
+		assertEquals("email@email", testReq.getEmail());
+		assertEquals("First", testReq.getFirstName());
+		assertEquals("Last", testReq.getLastName());
 	}
 	@Test
 	void testUserRequestAllArgs() {
@@ -44,9 +45,9 @@ class DtoConstructorTests {
 	}
 	@Test
 	void testReviewRequestRequiredArgs() {
-		assertThrows(NullPointerException.class, () ->{
-			ReviewRequest testReq = new ReviewRequest(0, 0, 0, null, null);
-		});
+		ReviewRequest testReq = new ReviewRequest("title", "review");
+		assertEquals("Cool", testReq.getTitle());
+		assertEquals("Good stuff", testReq.getReview());
 	}
 	@Test
 	void testReviewRequestAllArgs() {
@@ -99,9 +100,12 @@ class DtoConstructorTests {
 	}
 	@Test
 	void ProductInfoRequiredArgs() {
-		assertThrows(NullPointerException.class, ()->{
-			ProductInfo testReq = new ProductInfo(0, 0, null, null, null);
-		});
+		ProductInfo testReq = new ProductInfo(1, 10, "desc", "url", "name");
+		assertEquals(5, testReq.getQuantity());
+		assertEquals(10.25, testReq.getPrice());
+		assertEquals("nice headphones", testReq.getDescription());
+		assertEquals("randomUrl", testReq.getImage());
+		assertEquals("Headphones", testReq.getName());
 	}
 	@Test
 	void ProductInfoAllArgs() {
