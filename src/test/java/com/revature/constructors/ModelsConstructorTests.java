@@ -83,19 +83,6 @@ class ModelsConstructorTests {
 	}
 	
 	@Test
-	void testNewProductNoId() {
-		Product testProduct = new Product(2, 3.25, "A widget", "Random Url" , "widget", new HashSet<Review>(), new HashSet<Purchase>());
-		assertEquals(2, testProduct.getQuantity());
-		assertEquals(3.25, testProduct.getPrice());
-		assertEquals("A widget", testProduct.getDescription());
-		assertEquals("Random Url", testProduct.getImage());
-		assertEquals("widget", testProduct.getName());
-		assertEquals(new HashSet<Review>(), testProduct.getReviews());
-		assertEquals(new HashSet<Purchase>(), testProduct.getPurchases());	
-		
-	}
-	
-	@Test
 	void testNewProductNoArgs() {
 		Product testProduct = new Product();
 		assertEquals(0, testProduct.getId());
@@ -110,12 +97,12 @@ class ModelsConstructorTests {
 	@Test
 	void testNewReviewRequiredArgs() {
 		User testUser = new User(1, "email@email.com", "Password","First" , "Last", "Customer", new HashSet<Purchase>(), new HashSet<Review>(), new HashSet<Address>());
-		Product testProduct = new Product(2, 3.25, "A widget", "Random Url" , "widget", new HashSet<Review>(), new HashSet<Purchase>());
+		Product testProduct = new Product(2, 3.25, "A widget", "Random Url" , "widget");
 		Review testReview = new Review(3, "title", "review", testUser, testProduct);
 		assertEquals(0, testReview.getId());
 		assertEquals(3, testReview.getStars());
 		assertEquals("title", testReview.getTitle());
-		assertEquals("review", testReview.getReview());
+		assertEquals("review", testReview.getReviewMessage());
 		assertNull(testReview.getPosted());
 		assertNull(testReview.getUpdated());
 		assertEquals(testProduct, testReview.getProduct());
@@ -125,7 +112,7 @@ class ModelsConstructorTests {
 		assertEquals(0, testReview.getId());
 		assertEquals(3, testReview.getStars());
 		assertEquals("title", testReview.getTitle());
-		assertEquals("review", testReview.getReview());
+		assertEquals("review", testReview.getReviewMessage());
 		assertNull(testReview.getPosted());
 		assertNull(testReview.getUpdated());
 		assertEquals(testProduct, testReview.getProduct());
@@ -135,12 +122,12 @@ class ModelsConstructorTests {
 	@Test
 	void testNewReviewAllArgs() {
 		User testUser = new User(1, "email@email.com", "Password","First" , "Last", "Customer", new HashSet<Purchase>(), new HashSet<Review>(), new HashSet<Address>());
-		Product testProduct = new Product(2, 3.25, "A widget", "Random Url" , "widget", new HashSet<Review>(), new HashSet<Purchase>());
+		Product testProduct = new Product(2, 3.25, "A widget", "Random Url" , "widget");
 		Review testReview = new Review(1, 4, "test", "Good Item", null, null, testProduct, testUser);
 		assertEquals(1, testReview.getId());
 		assertEquals(4, testReview.getStars());
 		assertEquals("test", testReview.getTitle());
-		assertEquals("Good Item", testReview.getReview());
+		assertEquals("Good Item", testReview.getReviewMessage());
 		assertEquals(null, testReview.getPosted());
 		assertEquals(null, testReview.getUpdated());
 		assertEquals(testProduct, testReview.getProduct());
@@ -149,11 +136,11 @@ class ModelsConstructorTests {
 	@Test
 	void testNewReviewLittleDetail() {
 		User testUser = new User(1, "email@email.com", "Password","First" , "Last", "Customer", new HashSet<Purchase>(), new HashSet<Review>(), new HashSet<Address>());
-		Product testProduct = new Product(2, 3.25, "A widget", "Random Url" , "widget", new HashSet<Review>(), new HashSet<Purchase>());
+		Product testProduct = new Product(2, 3.25, "A widget", "Random Url" , "widget");
 		Review testReview = new Review(4, "test", "Good Item", testProduct, testUser);
 		assertEquals(4, testReview.getStars());
 		assertEquals("test", testReview.getTitle());
-		assertEquals("Good Item", testReview.getReview());
+		assertEquals("Good Item", testReview.getReviewMessage());
 		assertEquals(testUser, testReview.getUser());
 		assertEquals(testProduct, testReview.getProduct());
 	}
@@ -162,7 +149,7 @@ class ModelsConstructorTests {
 		Review testReview = new Review();
 		assertEquals(0, testReview.getStars());
 		assertEquals(null, testReview.getTitle());
-		assertEquals(null, testReview.getReview());
+		assertEquals(null, testReview.getReviewMessage());
 		assertEquals(null, testReview.getUser());
 		assertEquals(null, testReview.getProduct());
 	}

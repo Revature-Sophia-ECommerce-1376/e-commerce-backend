@@ -105,16 +105,6 @@ class DtoConstructorTests {
 		assertEquals(0, testReq.getQuantity());
 	}
 	@Test
-	void ProductInfoRequiredArgs() {
-		ProductInfo testReq = new ProductInfo(1, 10, "desc", "url", "name");
-		assertEquals(0, testReq.getId());
-		assertEquals(1, testReq.getQuantity());
-		assertEquals(10, testReq.getPrice());
-		assertEquals("desc", testReq.getDescription());
-		assertEquals("url", testReq.getImage());
-		assertEquals("name", testReq.getName());
-	}
-	@Test
 	void ProductInfoAllArgs() {
 		ProductInfo testReq = new ProductInfo(1, 5, 10.25, "nice headphones", "randomUrl", "Headphones");
 		assertEquals(1, testReq.getId());
