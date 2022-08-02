@@ -18,7 +18,7 @@ You're sections headers will be used to reference location of destination.
 
 ## Description
 
-Creating ReadMe's for your Github repository can be tedious.  I hope this template can save you time and effort as well as provide you with some consistency across your projects.
+Revazon is a sample e-commerce application that allows customers to buy Revature clothing and merchandise. Website visitors can browse products, add products to a shopping cart, search for products, and purchase products. In addition, visitors can register or log in as users. Users can update their profile information and also leave reviews for products. An Admin user may exist for this app. The Admin has other privileges such as creating new products and uploading images for products. 
 
 #### Technologies
 
@@ -28,6 +28,7 @@ Creating ReadMe's for your Github repository can be tedious.  I hope this templa
 - AWS
 - Docker
 - Jacoco
+- Auth0
 
 #### Deployment Diagram
 
