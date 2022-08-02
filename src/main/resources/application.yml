@@ -21,6 +21,10 @@ spring:
     sql:
         init:
             platform: postgres
+    servlet:
+      multipart:
+        max-request-size: 50MB
+        max-file-size: 50MB
 cloud:
     aws:
         credentials:
@@ -39,5 +43,6 @@ auth0:
 application:
   bucket:
     name: revazon-image-bucket
+    
 #auth0:
 #  audience: http://backend-env.eba-g9uchpeu.us-west-2.elasticbeanstalk.com/
