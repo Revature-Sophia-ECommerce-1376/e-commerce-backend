@@ -43,14 +43,7 @@ public class ProductService {
      * @return Optional<Product> or ProductNotFoundException
      */
     public Optional<Product> findById(int id) {
-        Optional<Product> optionalProduct = productRepository.findById(id);
-        if (!optionalProduct.isPresent()) {
-        
-            logger.warn(String.format("No product found with ID %d", id));
-            throw new ProductNotFoundException(String.format("No product found with ID %d", id));
-        }
-        logger.info(String.format("Product with ID: %d successfully found", optionalProduct.get().getId()));
-        return optionalProduct;
+        return productRepository.findById(id);
     }
 
     /**
