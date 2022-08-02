@@ -1,8 +1,7 @@
 package com.revature.constructors;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.contains;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +22,6 @@ class DtoConstructorTests {
 		assertEquals("apple@email", testReq.getEmail());
 		assertEquals("First", testReq.getFirstName());
 		assertEquals("Last", testReq.getLastName());
-		assertThat(testReq.toString().contains("email=apple@email"));
 	}
 	@Test
 	void testUserRequestAllArgs() {
@@ -34,7 +32,6 @@ class DtoConstructorTests {
 		assertEquals("First", testReq.getFirstName());
 		assertEquals("Last", testReq.getLastName());
 		assertEquals("ADMIN", testReq.getRole());
-		assertThat(testReq.toString().contains("password=password"));
 	}
 	@Test
 	void testUserRequestNoArgs() {
@@ -45,14 +42,12 @@ class DtoConstructorTests {
 		assertEquals(null, testReq.getFirstName());
 		assertEquals(null, testReq.getLastName());
 		assertEquals(null, testReq.getRole());
-		assertThat(testReq.toString().contains("id=null"));
 	}
 	@Test
 	void testReviewRequestRequiredArgs() {
 		ReviewRequest testReq = new ReviewRequest("title", "review");
 		assertEquals("title", testReq.getTitle());
 		assertEquals("review", testReq.getReview());
-		assertThat(testReq.toString().contains("title=title"));
 	}
 	@Test
 	void testReviewRequestAllArgs() {
@@ -62,7 +57,6 @@ class DtoConstructorTests {
 		assertEquals(4, testReq.getStars());
 		assertEquals("Cool", testReq.getTitle());
 		assertEquals("Good stuff", testReq.getReview());
-		assertThat(testReq.toString().contains("title=Cool"));
 	}
 	@Test
 	void testReviewRequestNoArgs() {
@@ -72,7 +66,6 @@ class DtoConstructorTests {
 		assertEquals(0, testReq.getStars());
 		assertEquals(null, testReq.getTitle());
 		assertEquals(null, testReq.getReview());
-		assertThat(testReq.toString().contains("id=0"));
 	}
 	
 	@Test
@@ -82,7 +75,6 @@ class DtoConstructorTests {
 		assertEquals("password", testReq.getPassword());
 		assertEquals("First", testReq.getFirstName());
 		assertEquals("Last", testReq.getLastName());
-		assertThat(testReq.toString().contains("email=email@email.com"));
 	}
 	@Test
 	void testRegisterRequestNoArgs() {
@@ -91,7 +83,6 @@ class DtoConstructorTests {
 		assertEquals(null, testReq.getPassword());
 		assertEquals(null, testReq.getFirstName());
 		assertEquals(null, testReq.getLastName());
-		assertThat(testReq.toString().contains("password=null"));
 	}
 	@Test
 	void testPurchaseRequestAllArgs() {
@@ -99,7 +90,6 @@ class DtoConstructorTests {
 		assertEquals(1, testReq.getId());
 		assertEquals(13, testReq.getUserId());
 		assertEquals(3, testReq.getQuantity());
-		assertThat(testReq.toString().contains("id=1"));
 	}
 	@Test
 	void testPurchaseRequestNoArgs() {
@@ -107,7 +97,6 @@ class DtoConstructorTests {
 		assertEquals(0, testReq.getId());
 		assertEquals(0, testReq.getUserId());
 		assertEquals(0, testReq.getQuantity());
-		assertThat(testReq.toString().contains("id=0"));
 	}
 	@Test
 	void ProductInfoRequiredArgs() {
@@ -117,7 +106,6 @@ class DtoConstructorTests {
 		assertEquals("desc", testReq.getDescription());
 		assertEquals("url", testReq.getImage());
 		assertEquals("name", testReq.getName());
-		assertThat(testReq.toString().contains("description=desc"));
 	}
 	@Test
 	void ProductInfoAllArgs() {
@@ -128,7 +116,6 @@ class DtoConstructorTests {
 		assertEquals("nice headphones", testReq.getDescription());
 		assertEquals("randomUrl", testReq.getImage());
 		assertEquals("Headphones", testReq.getName());
-		assertThat(testReq.toString().contains("description=nice headphones"));
 	}
 	@Test
 	void ProductInfoNoArgs() {
@@ -139,35 +126,30 @@ class DtoConstructorTests {
 		assertEquals(null, testReq.getDescription());
 		assertEquals(null, testReq.getImage());
 		assertEquals(null, testReq.getName());
-		assertThat(testReq.toString().contains("description=null"));
 	}
 	@Test
 	void PriceRangeRequestAllArgs() {
 		PriceRangeRequest testReq = new PriceRangeRequest(1, 100);
 		assertEquals(1, testReq.getMinPrice());
 		assertEquals(100, testReq.getMaxPrice());
-		assertThat(testReq.toString().contains("minPrice=1"));
 	}
 	@Test
 	void PriceRangeRequestNoArgs() {
 		PriceRangeRequest testReq = new PriceRangeRequest();
 		assertEquals(0, testReq.getMinPrice());
 		assertEquals(0, testReq.getMaxPrice());
-		assertThat(testReq.toString().contains("minPrice=0"));
 	}
 	@Test
 	void LoginRequestAllArgs() {
 		LoginRequest testReq = new LoginRequest("email@email.com", "password");
 		assertEquals("email@email.com", testReq.getEmail());
 		assertEquals("password", testReq.getPassword());
-		assertThat(testReq.toString().contains("password=password"));
 	}
 	@Test
 	void LoginRequestNoArgs() {
 		LoginRequest testReq = new LoginRequest();
 		assertEquals(null, testReq.getEmail());
 		assertEquals(null, testReq.getPassword());
-		assertThat(testReq.toString().contains("password=null"));
 	}
 	@Test
 	void CreateUpdateRequestAllArgs() {
@@ -178,7 +160,6 @@ class DtoConstructorTests {
 		assertEquals("More Headphones", testReq.getDescription());
 		assertEquals("Url", testReq.getImage());
 		assertEquals("Headphones", testReq.getName());
-		assertThat(testReq.toString().contains("image=Url"));
 	}
 	@Test
 	void CreateUpdateRequestNoArgs() {
@@ -189,7 +170,6 @@ class DtoConstructorTests {
 		assertEquals(null, testReq.getDescription());
 		assertEquals(null, testReq.getImage());
 		assertEquals(null, testReq.getName());
-		assertThat(testReq.toString().contains("description=null"));
 	}
 	@Test
 	void AddressRequestAllArgs() {
@@ -200,7 +180,6 @@ class DtoConstructorTests {
 		assertEquals("victoria", testReq.getCity());
 		assertEquals("77142", testReq.getZip());
 		assertEquals("Texas", testReq.getState());
-		assertThat(testReq.toString().contains("state=Texas"));
 	}
 	@Test
 	void AddressRequestNoArgs() {
@@ -211,6 +190,5 @@ class DtoConstructorTests {
 		assertEquals(null, testReq.getCity());
 		assertEquals(null, testReq.getZip());
 		assertEquals(null, testReq.getState());
-		assertThat(testReq.toString().contains("state=null"));
 	}
 }
