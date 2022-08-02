@@ -82,8 +82,7 @@ public class ReviewService {
 
 			return review;
 		} else {
-			throw new ProductNotFoundException(
-					String.format("No product found with ID %d", reviewRequest.getProductId()));
+			throw new ProductNotFoundException(String.format("No product found with ID %d", reviewRequest.getProductId()));
 		}
 	}
 
@@ -138,7 +137,7 @@ public class ReviewService {
 	public Review findById(int id) {
 		Optional<Review> optionalReview = reviewRepository.findById(id);
 		if (!optionalReview.isPresent()) {
-			throw new ReviewNotFoundException(String.format("No review found with ID %d", id));
+			throw new ReviewNotFoundException(String.format("findById(): No review found with ID %d", id));
 		} else {
 			return optionalReview.get();
 		}
@@ -174,14 +173,14 @@ public class ReviewService {
 			if (review.getUser().getId() == reviewRequest.getUserId()) {
 				review.setStars(reviewRequest.getStars());
 				review.setTitle(reviewRequest.getTitle());
-				review.setReview(reviewRequest.getReview());
+				review.setReviewMessage(reviewRequest.getReview());
 				review.setUpdated(Timestamp.valueOf(LocalDateTime.now()));
 				return reviewRepository.save(review);
 			} else {
 				throw new UnauthorizedReviewAccessException("You are not authorized to modify this review.");
 			}
 		} else {
-			throw new ReviewNotFoundException(String.format("No review found with ID %d", id));
+			throw new ReviewNotFoundException(String.format("update(): No review found with ID %d", id));
 		}
 	}
 
@@ -213,7 +212,7 @@ public class ReviewService {
 																												// review
 			}
 		} else {
-			throw new ReviewNotFoundException(String.format("No review found with ID %d", id));
+			throw new ReviewNotFoundException(String.format("delete(): No review found with ID %d", id));
 		}
 	}
 }
