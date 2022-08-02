@@ -65,8 +65,10 @@ public class AddressController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Address> updateAddress(@RequestBody AddressRequest addressRequest, @PathVariable("id") int userId) {
 		Optional<User> user = userv.findById(userId);
+
 		if(user.isPresent()) {
 			return ResponseEntity.ok(aserv.update(addressRequest, user.get()));
+
 		} else {
 			throw new UserNotFoundException(userId);
 		}
@@ -83,9 +85,11 @@ public class AddressController {
 	@PostMapping("/{id}")
 	public ResponseEntity<Address> addAddress(@RequestBody AddressRequest addressRequest, @PathVariable("id") int userId) {
 		Optional<User> user = userv.findById(userId);
+
 		if(user.isPresent()) {
 			return ResponseEntity.ok(aserv.addAddress(addressRequest, user.get()));
 		} else {
+
 			throw new UserNotFoundException(userId);
 		}
 	}
