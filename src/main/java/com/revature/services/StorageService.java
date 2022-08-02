@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class StorageService {
 
-	@Value("$(application.bucket.name)")
+	@Value("${application.bucket.name}")
 	private String bucketName;
 
 	@Autowired
@@ -43,6 +43,7 @@ public class StorageService {
 	 * @return HttpResponse with image file name or throws FileUploadException in response
 	 */
 	public ResponseEntity<String> uploadFile(MultipartFile file) {
+		System.out.println(bucketName);
 		String fileName = "";
 		try {
 			File fileObj = convertMultipartToFile(file);

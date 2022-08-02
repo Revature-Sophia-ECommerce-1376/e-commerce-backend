@@ -1,6 +1,7 @@
 package com.revature.constructors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,13 @@ import com.revature.dtos.RegisterRequest;
 import com.revature.dtos.ReviewRequest;
 import com.revature.dtos.UserRequest;
 
-public class DtoConstructorTests {
+class DtoConstructorTests {
+	@Test
+	void testUserRequiredArgs() {
+		assertThrows(NullPointerException.class, () ->{			
+			UserRequest testReq = new UserRequest(null, null, null);
+		});
+	}
 	@Test
 	void testUserRequestAllArgs() {
 		UserRequest testReq = new UserRequest(1, "email@email", "password", "First", "Last", "ADMIN");

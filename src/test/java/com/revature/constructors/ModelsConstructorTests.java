@@ -13,13 +13,13 @@ import com.revature.models.Purchase;
 import com.revature.models.Review;
 import com.revature.models.User;
 
-public class ModelsConstructorTests {
+class ModelsConstructorTests {
 	
 	@Test
 	void testNewUserAllArgs(){
 		User testUser = new User(1, "email@email.com", "Password","First" , "Last", "Customer", null, null, null);
 		int actual = testUser.getId();
-		assertEquals(actual, 1);
+		assertEquals(1, actual);
 	}
 	
 	@Test
@@ -31,14 +31,14 @@ public class ModelsConstructorTests {
 	void testNewProductAllArgs() {
 		Product testProduct = new Product(1, 2, 3.25, "A widget", "Random Url" , "widget", null, null);
 		int actual = testProduct.getId();
-		assertEquals(actual, 1);
+		assertEquals(1, actual);
 	}
 	
 	@Test
 	void testNewProductNoId() {
 		Product testProduct = new Product(2, 3.25, "A widget", "Random Url" , "widget", null, null);
 		int actual = testProduct.getQuantity();
-		assertEquals(actual, 2);
+		assertEquals(2, actual);
 	}
 	
 	@Test
