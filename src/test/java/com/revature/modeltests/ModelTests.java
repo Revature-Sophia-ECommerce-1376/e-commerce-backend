@@ -11,7 +11,7 @@ import com.openpojo.validation.test.impl.BusinessIdentityTester;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
 
-public class ModelTests {
+class ModelTests {
 	private String packageName = "com.revature.models";
 	
 	@Test

@@ -89,7 +89,7 @@ class AddressControllerTest {
 		given(this.userv.findById(dummyUser.getId())).willReturn(Optional.of(dummyUser));
 		given(this.aserv.findUsersAddresses(dummyUser)).willReturn(dummyUser.getAddresses());
 		
-		MockHttpServletRequestBuilder request = get(this.MAPPING + "/1").accept(MediaType.APPLICATION_JSON)
+		MockHttpServletRequestBuilder request = get(this.MAPPING + "/user/1").accept(MediaType.APPLICATION_JSON)
 				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 		
@@ -106,7 +106,7 @@ class AddressControllerTest {
 		
 		given(userv.findById(dummyUser.getId())).willThrow(UserNotFoundException.class);
 		given(aserv.findUsersAddresses(dummyUser)).willThrow(NullPointerException.class);
-		MockHttpServletRequestBuilder request = get(MAPPING + "/1").accept(MediaType.APPLICATION_JSON)
+		MockHttpServletRequestBuilder request = get(MAPPING + "/user/1").accept(MediaType.APPLICATION_JSON)
 				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
 		MockHttpServletResponse response = mvc.perform(request).andReturn().getResponse();
 		
@@ -119,7 +119,7 @@ class AddressControllerTest {
 	@Test
 	void testGetUserAddress_NoAddress() throws Exception{
 		given(userv.findById(dummyUser.getId())).willReturn(Optional.of(dummyUser));
-		MockHttpServletRequestBuilder request = get(MAPPING + "/1").accept(MediaType.APPLICATION_JSON)
+		MockHttpServletRequestBuilder request = get(MAPPING + "/user/1").accept(MediaType.APPLICATION_JSON)
 				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
 		MockHttpServletResponse response = mvc.perform(request).andReturn().getResponse();
 		

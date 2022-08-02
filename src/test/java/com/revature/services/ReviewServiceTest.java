@@ -71,7 +71,7 @@ class ReviewServiceTest {
 		ReviewRequest request = new ReviewRequest(authorId, productId, 5, "Review title", "Review body sample text");
 		Review newReview = new Review(request.getStars(), request.getTitle(), request.getReview(), this.dummyUser,
 				this.dummyProduct);
-		Review expected = new Review(2, newReview.getStars(), newReview.getTitle(), newReview.getReview(),
+		Review expected = new Review(2, newReview.getStars(), newReview.getTitle(), newReview.getReviewMessage(),
 				newReview.getPosted(), newReview.getUpdated(), this.dummyProduct, this.dummyUser);
 		given(this.pServ.findById(productId)).willReturn(Optional.of(this.dummyProduct));
 		given(this.uServ.findById(authorId)).willReturn(Optional.of(this.dummyUser));
