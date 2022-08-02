@@ -44,7 +44,7 @@ public class AddressController {
 	 * @param userId
 	 * @return HttpResponse with body containing array of User addresses 
 	 */
-	@GetMapping("/{userId}") // TODO: Strongly consider using "/user/{userId}" isntead.
+	@GetMapping("/user/{userId}")
 	public ResponseEntity<Set<Address>> getUserAddresses(@PathVariable("userId") int userId) {
 		Optional<User> optionalUser = userv.findById(userId);
 		if (optionalUser.isPresent()) {

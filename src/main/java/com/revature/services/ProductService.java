@@ -44,6 +44,13 @@ public class ProductService {
      */
     public Optional<Product> findById(int id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
+
+        if (!optionalProduct.isPresent()) {
+        
+            noId(id);
+        }
+        logger.info(String.format("Product with ID: %d successfully found", optionalProduct.get().getId()));
+
         return optionalProduct;
     }
 
@@ -75,8 +82,7 @@ public class ProductService {
         if (optionalProduct.isPresent()) {
             productRepository.deleteById(id);
         } else {
-            logger.warn(noId(id));
-            throw new ProductNotFoundException(noId(id));
+            noId(id);
         }
 
     }
