@@ -1,5 +1,6 @@
 package com.revature.constructors;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -25,6 +26,7 @@ class ModelsConstructorTests {
 		assertEquals("first", testUser.getFirstName());
 		assertEquals("last", testUser.getLastName());
 		assertEquals("customer", testUser.getRole());
+		assertThat(testUser.toString().contains("firstName=first"));
 	}
 	@Test
 	void testNewUserAllArgs(){
@@ -38,6 +40,7 @@ class ModelsConstructorTests {
 		assertEquals(new HashSet<Purchase>(), testUser.getPurchases());
 		assertEquals(new HashSet<Review>(), testUser.getReviews());
 		assertEquals(new HashSet<Address>(), testUser.getAddresses());
+		assertThat(testUser.toString().contains("firstName=First"));
 		
 	}
 	
@@ -53,6 +56,7 @@ class ModelsConstructorTests {
 		assertEquals(new HashSet<Purchase>(), testUser.getPurchases());
 		assertEquals(new HashSet<Review>(), testUser.getReviews());
 		assertEquals(new HashSet<Address>(), testUser.getAddresses());
+		assertThat(testUser.toString().contains("firstName=null"));
 	}
 	@Test
 	void testProductRequieredArgs(){
@@ -62,6 +66,7 @@ class ModelsConstructorTests {
 		assertEquals("desc", testProduct.getDescription());
 		assertEquals("url", testProduct.getImage());
 		assertEquals("name", testProduct.getName());
+		assertThat(testProduct.toString().contains("description=null"));
 	}
 	@Test
 	void testNewProductAllArgs() {
@@ -73,7 +78,8 @@ class ModelsConstructorTests {
 		assertEquals("Random Url", testProduct.getImage());
 		assertEquals("widget", testProduct.getName());
 		assertEquals(new HashSet<Review>(), testProduct.getReviews());
-		assertEquals(new HashSet<Purchase>(), testProduct.getPurchases());		
+		assertEquals(new HashSet<Purchase>(), testProduct.getPurchases());
+		assertThat(testProduct.toString().contains("description=A widget"));
 	}
 	
 	@Test
@@ -85,7 +91,8 @@ class ModelsConstructorTests {
 		assertEquals("Random Url", testProduct.getImage());
 		assertEquals("widget", testProduct.getName());
 		assertEquals(new HashSet<Review>(), testProduct.getReviews());
-		assertEquals(new HashSet<Purchase>(), testProduct.getPurchases());	
+		assertEquals(new HashSet<Purchase>(), testProduct.getPurchases());
+		assertThat(testProduct.toString().contains("description=A widget"));
 		
 	}
 	
@@ -99,7 +106,8 @@ class ModelsConstructorTests {
 		assertEquals(null, testProduct.getImage());
 		assertEquals(null, testProduct.getName());
 		assertEquals(new HashSet<Review>(), testProduct.getReviews());
-		assertEquals(new HashSet<Purchase>(), testProduct.getPurchases());	
+		assertEquals(new HashSet<Purchase>(), testProduct.getPurchases());
+		assertThat(testProduct.toString().contains("description=null"));
 	}
 	@Test
 	void testNewReviewRequiredArgs() {
@@ -111,6 +119,7 @@ class ModelsConstructorTests {
 		assertEquals("review", testReview.getReview());
 		assertEquals(testProduct, testReview.getProduct());
 		assertEquals(testUser, testReview.getUser());
+		assertThat(testReview.toString().contains("title=title"));
 		
 		testReview = new Review(3, "title", "review", testProduct, testUser);
 		assertEquals(3, testReview.getStars());
@@ -118,6 +127,7 @@ class ModelsConstructorTests {
 		assertEquals("review", testReview.getReview());
 		assertEquals(testProduct, testReview.getProduct());
 		assertEquals(testUser, testReview.getUser());
+		assertThat(testReview.toString().contains("title=title"));
 		
 	}
 	@Test
@@ -133,6 +143,7 @@ class ModelsConstructorTests {
 		assertEquals(null, testReview.getUpdated());
 		assertEquals(testProduct, testReview.getProduct());
 		assertEquals(testUser, testReview.getUser());
+		assertThat(testReview.toString().contains("title=test"));
 	}
 	@Test
 	void testNewReviewLittleDetail() {
@@ -144,6 +155,7 @@ class ModelsConstructorTests {
 		assertEquals("Good Item", testReview.getReview());
 		assertEquals(testUser, testReview.getUser());
 		assertEquals(testProduct, testReview.getProduct());
+		assertThat(testReview.toString().contains("title=test"));
 	}
 	@Test
 	void testNewReviewNoArgs() {
@@ -153,6 +165,7 @@ class ModelsConstructorTests {
 		assertEquals(null, testReview.getReview());
 		assertEquals(null, testReview.getUser());
 		assertEquals(null, testReview.getProduct());
+		assertThat(testReview.toString().contains("title=null"));
 	}
 	@Test
 	void testNewPurchaseAllArgs() {
@@ -164,6 +177,7 @@ class ModelsConstructorTests {
 		assertEquals(testProduct, testPurchase.getProduct());
 		assertEquals(testUser, testPurchase.getOwnerUser());
 		assertEquals(10, testPurchase.getQuantity());
+		assertThat(testPurchase.toString().contains("id=1"));
 	}
 	@Test
 	void testNewPurchaseNoArgs() {
@@ -173,6 +187,7 @@ class ModelsConstructorTests {
 		assertEquals(null, testPurchase.getProduct());
 		assertEquals(null, testPurchase.getOwnerUser());
 		assertEquals(0, testPurchase.getQuantity());
+		assertThat(testPurchase.toString().contains("id=0"));
 	}
 	@Test
 	void testNewAddressRequired() {
@@ -181,6 +196,7 @@ class ModelsConstructorTests {
 		assertEquals("state", testAddress.getState());
 		assertEquals("zip", testAddress.getZip());
 		assertEquals("city", testAddress.getCity());
+		assertThat(testAddress.toString().contains("state=state"));
 		
 	}
 	@Test
@@ -196,6 +212,7 @@ class ModelsConstructorTests {
 		assertEquals("1234", testAddress.getZip());
 		assertEquals("Sydney", testAddress.getCity());
 		assertEquals(users, testAddress.getUsers());
+		assertThat(testAddress.toString().contains("state=big apple"));
 	}
 	@Test
 	void testNewAddressNoArgs() {
@@ -207,5 +224,6 @@ class ModelsConstructorTests {
 		assertEquals(null, testAddress.getZip());
 		assertEquals(null, testAddress.getCity());
 		assertEquals(new HashSet<User>(), testAddress.getUsers());
+		assertThat(testAddress.toString().contains("state=null"));
 	}
 }
