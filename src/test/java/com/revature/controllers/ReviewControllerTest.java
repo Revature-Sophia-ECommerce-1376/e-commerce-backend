@@ -240,7 +240,7 @@ class ReviewControllerTest {
 	void testAddReview_Failure_NotLoggedIn() throws Exception {
 		int authorId = this.dummyUser.getId();
 		ReviewRequest newReview = new ReviewRequest(authorId, this.dummyProduct.getId(), this.dummyReview.getStars(),
-				this.dummyReview.getTitle(), this.dummyReview.getReview());
+				this.dummyReview.getTitle(), this.dummyReview.getReviewMessage());
 
 		// Given the security changes, is simply not having a token equivalent to not being logged in?
 		String jsonContent = this.jsonReviewRequest.write(newReview).getJson();
@@ -255,7 +255,7 @@ class ReviewControllerTest {
 	void testAddReview_Failure_ProductNotFound() throws Exception {
 		int authorId = this.dummyUser.getId();
 		ReviewRequest newReview = new ReviewRequest(authorId, this.dummyProduct.getId(), this.dummyReview.getStars(),
-				this.dummyReview.getTitle(), this.dummyReview.getReview());
+				this.dummyReview.getTitle(), this.dummyReview.getReviewMessage());
 		given(this.rServ.add(newReview)).willThrow(new ProductNotFoundException());
 
 		String jsonContent = this.jsonReviewRequest.write(newReview).getJson();
@@ -271,7 +271,7 @@ class ReviewControllerTest {
 	void testAddReview_Failure_AlreadyReviewed() throws Exception {
 		int authorId = this.dummyUser.getId();
 		ReviewRequest newReview = new ReviewRequest(authorId, this.dummyProduct.getId(), this.dummyReview.getStars(),
-				this.dummyReview.getTitle(), this.dummyReview.getReview());
+				this.dummyReview.getTitle(), this.dummyReview.getReviewMessage());
 		given(this.rServ.add(newReview)).willThrow(new DuplicateReviewException());
 
 		String jsonContent = this.jsonReviewRequest.write(newReview).getJson();
