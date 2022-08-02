@@ -18,6 +18,7 @@ public class LoggingAdvice {
 
 	@Pointcut(value = "execution(* com.revature.*.*.*(..))")
 	public void pointCut() {
+		//Intentional: Gives @Before a reference
 	}
 
 	@Before("pointCut()")
@@ -27,12 +28,14 @@ public class LoggingAdvice {
 		String className = pjp.getTarget().getClass().toString();
 		Object[] methodArgs = pjp.getArgs();
 		Object o = null;
-
-		try {
-			log.info(String.format("method invoked %1$s : %2$s () : arguments : %3$s", className, methodName,
-					mapper.writeValueAsString(methodArgs)));
-		} catch (Throwable e) {
-			log.error("logger unable to parse methodArgs");
+		
+		if (log.isInfoEnabled()) {
+			try {
+				log.info(String.format("method invoked %1$s : %2$s () : arguments : %3$s", className, methodName,
+						mapper.writeValueAsString(methodArgs)));
+			} catch (Exception e) {
+				log.error("logger unable to parse methodArgs");
+			}
 		}
 
 		return o;

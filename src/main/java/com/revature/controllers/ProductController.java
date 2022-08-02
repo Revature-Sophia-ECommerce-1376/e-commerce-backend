@@ -31,7 +31,7 @@ import com.revature.services.StorageService;
  */
 @RestController
 @RequestMapping("/api/product")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://localhost:4200", "https://revazon-image-bucket.s3.amazonaws.com"})
 public class ProductController {
 
 	private final ProductService productService;
