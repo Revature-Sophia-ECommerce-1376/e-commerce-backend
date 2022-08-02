@@ -1,22 +1,14 @@
 package com.revature.models;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.openpojo.business.BusinessIdentity;
 import com.openpojo.business.annotation.BusinessKey;
-import com.sun.istack.NotNull;
 
 @Getter
 @Setter
