@@ -60,9 +60,6 @@ The backend is deployed in a cloud environment using AWS. A CI/CD pipeline is co
 
 #### API Reference
 https://app.swaggerhub.com/apis/ANDYHUGHES39_1/Revazon/1.0.0
-```html
-    
-```
 
 
 ---
