@@ -174,7 +174,7 @@ public class ReviewService {
 			if (review.getUser().getId() == reviewRequest.getUserId()) {
 				review.setStars(reviewRequest.getStars());
 				review.setTitle(reviewRequest.getTitle());
-				review.setReview(reviewRequest.getReview());
+				review.setReviewMessage(reviewRequest.getReview());
 				review.setUpdated(Timestamp.valueOf(LocalDateTime.now()));
 				return reviewRepository.save(review);
 			} else {

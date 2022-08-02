@@ -14,9 +14,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import java.sql.Time;
+
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+
 
 @Getter
 @Setter
@@ -46,7 +46,7 @@ public class Review {
 	@BusinessKey
     @NotNull
     @NonNull
-    private String review;
+    private String reviewMessage;
 
     @CreationTimestamp
     @EqualsAndHashCode.Exclude
@@ -75,7 +75,7 @@ public class Review {
         super();
         this.stars = stars;
         this.title = title;
-        this.review = review;
+        this.reviewMessage = review;
         this.user = user;
         this.product = product;
     }
