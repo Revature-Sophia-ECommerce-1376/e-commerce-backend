@@ -44,7 +44,7 @@ public class AddressController {
 	 * @param userId
 	 * @return HttpResponse with body containing array of User addresses 
 	 */
-	@GetMapping("/{userId}") // TODO: Strongly consider using "/user/{userId}" isntead.
+	@GetMapping("/user/{userId}")
 	public ResponseEntity<Set<Address>> getUserAddresses(@PathVariable("userId") int userId) {
 		Optional<User> optionalUser = userv.findById(userId);
 		if (optionalUser.isPresent()) {
@@ -65,7 +65,13 @@ public class AddressController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Address> updateAddress(@RequestBody AddressRequest addressRequest, @PathVariable("id") int userId) {
 		Optional<User> user = userv.findById(userId);
-		return ResponseEntity.ok(aserv.update(addressRequest, user.get()));
+
+		if(user.isPresent()) {
+			return ResponseEntity.ok(aserv.update(addressRequest, user.get()));
+
+		} else {
+			throw new UserNotFoundException(userId);
+		}
 
 	}
 
@@ -79,6 +85,12 @@ public class AddressController {
 	@PostMapping("/{id}")
 	public ResponseEntity<Address> addAddress(@RequestBody AddressRequest addressRequest, @PathVariable("id") int userId) {
 		Optional<User> user = userv.findById(userId);
-		return ResponseEntity.ok(aserv.addAddress(addressRequest, user.get()));
+
+		if(user.isPresent()) {
+			return ResponseEntity.ok(aserv.addAddress(addressRequest, user.get()));
+		} else {
+
+			throw new UserNotFoundException(userId);
+		}
 	}
 }
