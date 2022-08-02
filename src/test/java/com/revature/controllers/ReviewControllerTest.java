@@ -33,7 +33,11 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 import com.revature.config.TestConfig;
 import com.revature.dtos.ReviewRequest;
+import com.revature.exceptions.DuplicateReviewException;
+import com.revature.exceptions.ProductNotFoundException;
 import com.revature.exceptions.ReviewNotFoundException;
+import com.revature.exceptions.UnauthorizedReviewAccessException;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Product;
 import com.revature.models.Review;
 import com.revature.models.User;
@@ -71,6 +75,7 @@ class ReviewControllerTest {
 	private ReviewController controller;
 
 	private final String MAPPING_ROOT = "/api/review";
+	private final String TOKEN = "Bearer token";
 	private Review dummyReview;
 	private User dummyUser;
 	private Product dummyProduct;
@@ -101,7 +106,7 @@ class ReviewControllerTest {
 
 		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT)
 				.accept(MediaType.APPLICATION_JSON)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -114,7 +119,7 @@ class ReviewControllerTest {
 		List<Review> expected = new LinkedList<>();
 		given(this.rServ.findAll()).willReturn(expected);
 
-		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT).accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, "Bearer token");
+		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT).accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -131,7 +136,7 @@ class ReviewControllerTest {
 
 		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/product/" + productId)
 				.accept(MediaType.APPLICATION_JSON)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -140,9 +145,19 @@ class ReviewControllerTest {
 	}
 
 	@Test
-	@Disabled("Not yet implemented")
 	void testGetReviewsOfProduct_Failure_ProductNotFound() throws Exception {
-		fail("Not yet implemented");
+		int productId = this.dummyProduct.getId();
+		List<Review> reviews = new LinkedList<>();
+		reviews.add(this.dummyReview);
+		given(this.rServ.findByProductId(productId)).willThrow(new ProductNotFoundException());
+
+		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/product/" + productId)
+				.accept(MediaType.APPLICATION_JSON)
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
+		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
+
+		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+		verify(this.rServ, times(1)).findByProductId(productId);
 	}
 
 	@Test
@@ -154,7 +169,7 @@ class ReviewControllerTest {
 
 		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/user/" + userId)
 				.accept(MediaType.APPLICATION_JSON)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -163,9 +178,19 @@ class ReviewControllerTest {
 	}
 
 	@Test
-	@Disabled("Not yet implemented")
 	void testGetReviewsByUser_Failure_UserNotFound() throws Exception {
-		fail("Not yet implemented");
+		int userId = this.dummyUser.getId();
+		List<Review> reviews = new LinkedList<>();
+		reviews.add(this.dummyReview);
+		given(this.rServ.findByUserId(userId)).willThrow(new UserNotFoundException());
+
+		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/user/" + userId)
+				.accept(MediaType.APPLICATION_JSON)
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
+		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
+
+		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+		verify(this.rServ, times(1)).findByUserId(userId);
 	}
 
 	@Test
@@ -173,7 +198,7 @@ class ReviewControllerTest {
 		int id = this.dummyReview.getId();
 		given(this.rServ.findById(id)).willReturn(this.dummyReview);
 
-		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/" + id).accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, "Bearer token");
+		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/" + id).accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -186,7 +211,7 @@ class ReviewControllerTest {
 		int id = this.dummyReview.getId();
 		given(this.rServ.findById(id)).willThrow(ReviewNotFoundException.class);
 
-		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/" + id).accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, "Bearer token");
+		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/" + id).accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
@@ -203,7 +228,7 @@ class ReviewControllerTest {
 		String jsonContent = this.jsonReviewRequest.write(newReview).getJson();
 		MockHttpServletRequestBuilder request = post(this.MAPPING_ROOT).contentType(MediaType.APPLICATION_JSON)
 				.content(jsonContent).sessionAttr("user", this.dummyUser)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -212,15 +237,50 @@ class ReviewControllerTest {
 	}
 
 	@Test
-	@Disabled("Not yet implemented")
-	void testAddReview_Failure_NotLoggedIn() {
-		fail("Not yet implemented");
+	void testAddReview_Failure_NotLoggedIn() throws Exception {
+		int authorId = this.dummyUser.getId();
+		ReviewRequest newReview = new ReviewRequest(authorId, this.dummyProduct.getId(), this.dummyReview.getStars(),
+				this.dummyReview.getTitle(), this.dummyReview.getReviewMessage());
+
+		// Given the security changes, is simply not having a token equivalent to not being logged in?
+		String jsonContent = this.jsonReviewRequest.write(newReview).getJson();
+		MockHttpServletRequestBuilder request = post(this.MAPPING_ROOT).contentType(MediaType.APPLICATION_JSON)
+				.content(jsonContent).sessionAttr("user", this.dummyUser);
+		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
+
+		assertEquals(HttpStatus.FORBIDDEN.value(), response.getStatus());
 	}
 
 	@Test
-	@Disabled("Not yet implemented")
-	void testAddReview_Failure_ProductNotFound() {
-		fail("Not yet implemented");
+	void testAddReview_Failure_ProductNotFound() throws Exception {
+		int authorId = this.dummyUser.getId();
+		ReviewRequest newReview = new ReviewRequest(authorId, this.dummyProduct.getId(), this.dummyReview.getStars(),
+				this.dummyReview.getTitle(), this.dummyReview.getReviewMessage());
+		given(this.rServ.add(newReview)).willThrow(new ProductNotFoundException());
+
+		String jsonContent = this.jsonReviewRequest.write(newReview).getJson();
+		MockHttpServletRequestBuilder request = post(this.MAPPING_ROOT).contentType(MediaType.APPLICATION_JSON)
+				.content(jsonContent).sessionAttr("user", this.dummyUser)
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
+		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
+
+		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+	}
+	
+	@Test
+	void testAddReview_Failure_AlreadyReviewed() throws Exception {
+		int authorId = this.dummyUser.getId();
+		ReviewRequest newReview = new ReviewRequest(authorId, this.dummyProduct.getId(), this.dummyReview.getStars(),
+				this.dummyReview.getTitle(), this.dummyReview.getReviewMessage());
+		given(this.rServ.add(newReview)).willThrow(new DuplicateReviewException());
+
+		String jsonContent = this.jsonReviewRequest.write(newReview).getJson();
+		MockHttpServletRequestBuilder request = post(this.MAPPING_ROOT).contentType(MediaType.APPLICATION_JSON)
+				.content(jsonContent).sessionAttr("user", this.dummyUser)
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
+		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
+
+		assertEquals(HttpStatus.CONFLICT.value(), response.getStatus());
 	}
 
 	@Test
@@ -237,7 +297,7 @@ class ReviewControllerTest {
 
 		String jsonContent = this.jsonReviewRequest.write(updatedReview).getJson();
 		MockHttpServletRequestBuilder request = put(this.MAPPING_ROOT + "/" + reviewId)
-				.contentType(MediaType.APPLICATION_JSON).content(jsonContent).sessionAttr("user", this.dummyUser).header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.contentType(MediaType.APPLICATION_JSON).content(jsonContent).sessionAttr("user", this.dummyUser).header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -246,21 +306,52 @@ class ReviewControllerTest {
 	}
 
 	@Test
-	@Disabled("Not yet implemented")
-	void testUpdateReview_Failure_ReviewNotFound() {
-		fail("Not yet implemented");
+	void testUpdateReview_Failure_ReviewNotFound() throws Exception {
+		int reviewId = this.dummyReview.getId();
+		int authorId = this.dummyUser.getId();
+		ReviewRequest updatedReview = new ReviewRequest(authorId, this.dummyProduct.getId(), 5, "Updated review",
+				"This new version of the product made it a lot better");
+
+		given(this.rServ.update(updatedReview, reviewId)).willThrow(new ReviewNotFoundException());
+
+		String jsonContent = this.jsonReviewRequest.write(updatedReview).getJson();
+		MockHttpServletRequestBuilder request = put(this.MAPPING_ROOT + "/" + reviewId)
+				.contentType(MediaType.APPLICATION_JSON).content(jsonContent).sessionAttr("user", this.dummyUser).header(HttpHeaders.AUTHORIZATION, TOKEN);
+		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
+
+		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
 	}
 
 	@Test
-	@Disabled("Not yet implemented")
-	void testUpdateReview_Failure_UnauthorizedUser() {
-		fail("Not yet implemented");
+	void testUpdateReview_Failure_UnauthorizedUser() throws Exception {
+		int reviewId = this.dummyReview.getId();
+		int authorId = this.dummyUser.getId();
+		ReviewRequest updatedReview = new ReviewRequest(authorId, this.dummyProduct.getId(), 5, "Updated review",
+				"This new version of the product made it a lot better");
+
+		given(this.rServ.update(updatedReview, reviewId)).willThrow(new UnauthorizedReviewAccessException());
+
+		String jsonContent = this.jsonReviewRequest.write(updatedReview).getJson();
+		MockHttpServletRequestBuilder request = put(this.MAPPING_ROOT + "/" + reviewId)
+				.contentType(MediaType.APPLICATION_JSON).content(jsonContent).sessionAttr("user", this.dummyUser).header(HttpHeaders.AUTHORIZATION, TOKEN);
+		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
+
+		assertEquals(HttpStatus.UNAUTHORIZED.value(), response.getStatus());
 	}
 
 	@Test
-	@Disabled("Not yet implemented")
-	void testUpdateReview_Failure_NotLoggedIn() {
-		fail("Not yet implemented");
+	void testUpdateReview_Failure_NotLoggedIn() throws Exception {
+		int reviewId = this.dummyReview.getId();
+		int authorId = this.dummyUser.getId();
+		ReviewRequest updatedReview = new ReviewRequest(authorId, this.dummyProduct.getId(), 5, "Updated review",
+				"This new version of the product made it a lot better");
+
+		String jsonContent = this.jsonReviewRequest.write(updatedReview).getJson();
+		MockHttpServletRequestBuilder request = put(this.MAPPING_ROOT + "/" + reviewId)
+				.contentType(MediaType.APPLICATION_JSON).content(jsonContent).sessionAttr("user", this.dummyUser);
+		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
+
+		assertEquals(HttpStatus.FORBIDDEN.value(), response.getStatus());
 	}
 
 	@Test
@@ -268,7 +359,7 @@ class ReviewControllerTest {
 		int reviewId = this.dummyReview.getId();
 		int userId = this.dummyUser.getId();
 		MockHttpServletRequestBuilder request = delete(this.MAPPING_ROOT + "/" + userId + "/" + reviewId)
-				.contentType(MediaType.APPLICATION_JSON).sessionAttr("user", this.dummyUser).header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.contentType(MediaType.APPLICATION_JSON).sessionAttr("user", this.dummyUser).header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -276,21 +367,45 @@ class ReviewControllerTest {
 	}
 
 	@Test
-	@Disabled("Not yet implemented")
-	void testDeleteReview_Failure_UserUnauthorized() {
-		fail("Not yet implemented");
+	void testDeleteReview_Failure_UserUnauthorized() throws Exception {
+		int reviewId = this.dummyReview.getId();
+		int userId = this.dummyUser.getId();
+		
+		given(this.rServ.delete(reviewId, userId)).willThrow(new UnauthorizedReviewAccessException());
+		
+		MockHttpServletRequestBuilder request = delete(this.MAPPING_ROOT + "/" + userId + "/" + reviewId)
+				.contentType(MediaType.APPLICATION_JSON).sessionAttr("user", this.dummyUser).header(HttpHeaders.AUTHORIZATION, TOKEN);
+		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
+
+		assertEquals(HttpStatus.UNAUTHORIZED.value(), response.getStatus());
 	}
 
 	@Test
-	@Disabled("Not yet implemented")
-	void testDeleteReview_Failure_NotLoggedIn() {
-		fail("Not yet implemented");
+	void testDeleteReview_Failure_NotLoggedIn() throws Exception {
+		int reviewId = this.dummyReview.getId();
+		int userId = this.dummyUser.getId();
+		
+		given(this.rServ.delete(reviewId, userId)).willThrow(new UnauthorizedReviewAccessException());
+		
+		MockHttpServletRequestBuilder request = delete(this.MAPPING_ROOT + "/" + userId + "/" + reviewId)
+				.contentType(MediaType.APPLICATION_JSON).sessionAttr("user", this.dummyUser);
+		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
+
+		assertEquals(HttpStatus.FORBIDDEN.value(), response.getStatus());
 	}
 
 	@Test
-	@Disabled("Not yet implemented")
-	void testDeleteReview_Failure_ReviewNotFound() {
-		fail("Not yet implemented");
+	void testDeleteReview_Failure_ReviewNotFound() throws Exception {
+		int reviewId = this.dummyReview.getId();
+		int userId = this.dummyUser.getId();
+		
+		given(this.rServ.delete(reviewId, userId)).willThrow(new ReviewNotFoundException());
+		
+		MockHttpServletRequestBuilder request = delete(this.MAPPING_ROOT + "/" + userId + "/" + reviewId)
+				.contentType(MediaType.APPLICATION_JSON).sessionAttr("user", this.dummyUser).header(HttpHeaders.AUTHORIZATION, TOKEN);
+		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
+
+		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
 	}
 
 }
