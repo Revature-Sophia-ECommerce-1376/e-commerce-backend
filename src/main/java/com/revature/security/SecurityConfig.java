@@ -22,6 +22,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private String scope = "SCOPE_admin:rights";
     @Value("${auth0.audience}")
     private String audience;
 
@@ -39,9 +40,9 @@ public class SecurityConfig {
                 .mvcMatchers("/api/purchases/**").authenticated()
                 .mvcMatchers("/api/review/**").authenticated()
 
-                .mvcMatchers(HttpMethod.PUT).hasAuthority("SCOPE_admin:rights")
-                .mvcMatchers(HttpMethod.PATCH).hasAuthority("SCOPE_admin:rights")
-                .mvcMatchers(HttpMethod.DELETE).hasAuthority("SCOPE_admin:rights")
+                .mvcMatchers(HttpMethod.PUT).hasAuthority(scope)
+                .mvcMatchers(HttpMethod.PATCH).hasAuthority(scope)
+                .mvcMatchers(HttpMethod.DELETE).hasAuthority(scope)
                 .and().cors()
                 .and().oauth2ResourceServer().jwt();
         return http.build();

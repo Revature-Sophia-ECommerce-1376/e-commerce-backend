@@ -197,7 +197,7 @@ class ReviewControllerTest {
 	void testAddReview_Success() throws Exception {
 		int authorId = this.dummyUser.getId();
 		ReviewRequest newReview = new ReviewRequest(authorId, this.dummyProduct.getId(), this.dummyReview.getStars(),
-				this.dummyReview.getTitle(), this.dummyReview.getReview());
+				this.dummyReview.getTitle(), this.dummyReview.getReviewMessage());
 		given(this.rServ.add(newReview)).willReturn(this.dummyReview);
 
 		String jsonContent = this.jsonReviewRequest.write(newReview).getJson();
@@ -230,7 +230,7 @@ class ReviewControllerTest {
 		ReviewRequest updatedReview = new ReviewRequest(authorId, this.dummyProduct.getId(), 5, "Updated review",
 				"This new version of the product made it a lot better");
 		this.dummyReview.setTitle(updatedReview.getTitle());
-		this.dummyReview.setReview(updatedReview.getReview());
+		this.dummyReview.setReviewMessage(updatedReview.getReview());
 		this.dummyReview.setStars(updatedReview.getStars());
 
 		given(this.rServ.update(updatedReview, reviewId)).willReturn(this.dummyReview);

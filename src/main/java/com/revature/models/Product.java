@@ -73,16 +73,6 @@ public class Product {
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
 	private Set<Purchase> purchases = new LinkedHashSet<>();
-
-	public Product(int quantity, double price, String description, String image, String name, Set<Review> reviews,
-			Set<Purchase> purchases) {
-		super();
-		this.quantity = quantity;
-		this.price = price;
-		this.description = description;
-		this.image = image;
-		this.name = name;
-	}
 	
 	@Override
     public String toString() { return BusinessIdentity.toString(this); }
