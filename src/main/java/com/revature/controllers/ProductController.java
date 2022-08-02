@@ -133,7 +133,7 @@ public class ProductController {
 	 */
 	@PatchMapping
 	public ResponseEntity<List<Product>> purchase(@RequestBody List<ProductInfo> metadata) {
-		List<Product> productList = new ArrayList<Product>();
+		List<Product> productList = new ArrayList<>();
 
 		for (int i = 0; i < metadata.size(); i++) {
 			// Gets product from product repository

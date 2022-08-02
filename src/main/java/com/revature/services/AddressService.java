@@ -21,11 +21,9 @@ import com.revature.repositories.AddressRepository;
 public class AddressService {
 
 	private final AddressRepository addressRepo;
-	private final UserService userService;
 
 	public AddressService(AddressRepository addressRepo, UserService userService) {
 		this.addressRepo = addressRepo;
-		this.userService = userService;
 	}
 
 	/**

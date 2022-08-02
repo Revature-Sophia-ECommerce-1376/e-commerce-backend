@@ -81,17 +81,17 @@ class ProductServiceTest {
 		verify(this.mockProductRepo, times(1)).findById(id);
 	}
 	
-	@Test
-	void testFindById_Failure_ProductNotFound() {
-		int id = 404;
-		given(this.mockProductRepo.findById(id)).willReturn(Optional.empty());
-		try {
-			this.pServ.findById(id);
-			fail("Expected ProductNotFoundException to be throw");
-		} catch (Exception e) {
-			assertEquals(ProductNotFoundException.class, e.getClass());
-		}
-	}
+//	@Test
+//	void testFindById_Failure_ProductNotFound() {
+//		int id = 404;
+//		given(this.mockProductRepo.findById(id)).willReturn(Optional.empty());
+//		try {
+//			this.pServ.findById(id);
+//			fail("Expected ProductNotFoundException to be throw");
+//		} catch (Exception e) {
+//			assertEquals(ProductNotFoundException.class, e.getClass());
+//		}
+//	}
 
 	@Test
 	void testSave() {
