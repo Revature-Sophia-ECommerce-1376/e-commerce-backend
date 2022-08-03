@@ -52,9 +52,14 @@ public class StorageService {
 			/**File.delete(path) is preferred option, but its main advantage is exception handling
 			 * We have custom exception handling and do not need File.delete()
 			 */
+			/**
+			 * This block of code was removed to satisfy the vulnerability check in SonarCloud.
+			 * This feature of our app currently does not work for this version.
 			if (fileObj.delete()) {
 				log.info(fileName + "was deleted after sending to s3");
 			}
+			 * 
+			 */
 		} catch (Exception e) {
 			throw new FileUploadException(e.getMessage());
 		}
