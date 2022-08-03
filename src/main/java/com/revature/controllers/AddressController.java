@@ -27,7 +27,7 @@ import com.revature.services.UserService;
  */
 @RestController
 @RequestMapping("/api/addresses")
-@CrossOrigin(origins = {"http://localhost:4200", "https://revazon-image-bucket.s3.amazonaws.com"})
+@CrossOrigin(origins = {"http://localhost:4200", "https://revazon-image-bucket.s3.amazonaws.com", "http://backend-env.eba-g9uchpeu.us-west-2.elasticbeanstalk.com"})
 public class AddressController {
 
 	private final AddressService aserv;
