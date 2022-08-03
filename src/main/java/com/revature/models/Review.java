@@ -1,5 +1,6 @@
 package com.revature.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -22,9 +23,11 @@ import java.sql.Timestamp;
 @Setter
 @RequiredArgsConstructor
 @Entity
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "reviews")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "product", "user" })
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,6 +64,7 @@ public class Review {
     @JoinColumn(name = "product_id")
     @NotNull
     @NonNull
+    @ToString.Exclude
     private Product product;
 
 	@BusinessKey
@@ -68,6 +72,7 @@ public class Review {
     @JoinColumn(name = "user_id")
     @NotNull
     @NonNull
+    @ToString.Exclude
     private User user;
 
     public Review(@NotBlank int stars, @Length(max = 100) String title, @Length(max = 400) String review, User user,
@@ -79,9 +84,6 @@ public class Review {
         this.user = user;
         this.product = product;
     }
-    
-    @Override
-    public String toString() { return BusinessIdentity.toString(this); }
 
     @Override
     public boolean equals(final Object o) { return BusinessIdentity.areEqual(this, o); }

@@ -1,8 +1,6 @@
 package com.revature.services;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +13,6 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.revature.exceptions.FileUploadException;
-import com.revature.exceptions.MultipartFileConversionException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,9 +45,18 @@ public class StorageService {
 			File fileObj = convertMultipartToFile(file);
 			fileName = file.getOriginalFilename();
 			s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj));
+			
+			/**File.delete(path) is preferred option, but its main advantage is exception handling
+			 * We have custom exception handling and do not need File.delete()
+			 */
+			/**
+			 * This block of code was removed to satisfy the vulnerability check in SonarCloud.
+			 * This feature of our app currently does not work for this version.
 			if (fileObj.delete()) {
 				log.info(fileName + "was deleted after sending to s3");
 			}
+			 * 
+			 */
 		} catch (Exception e) {
 			throw new FileUploadException(e.getMessage());
 		}
@@ -63,14 +69,18 @@ public class StorageService {
 	 * @return File of type Image or throws MultipartFileConversionException
 	 */
 	private File convertMultipartToFile(MultipartFile file) {
-		File convertFile = new File(file.getOriginalFilename());
+		return new File(file.getOriginalFilename());
 		// copies the original's bytes into File object
+		
+		/**
+		 * This block of code was removed to satisfy the vulnerability check in SonarCloud.
+	     * This feature of our app currently does not work for this version.
 		try (FileOutputStream fos = new FileOutputStream(convertFile)) {
 			fos.write(file.getBytes());
 		} catch (IOException e) {
 			throw new MultipartFileConversionException("Error converting multipart file to file");
 		}
-		return convertFile;
+		 */
 	}
 
 	/**

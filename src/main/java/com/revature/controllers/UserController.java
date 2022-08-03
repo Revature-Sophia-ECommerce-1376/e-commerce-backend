@@ -28,7 +28,7 @@ import com.revature.services.UserService;
  */
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://localhost:4200", "https://revazon-image-bucket.s3.amazonaws.com", "https://d1jltnx8c2x3v1.cloudfront.net/"})
 public class UserController {
 
 	private final UserService userv;
@@ -69,12 +69,12 @@ public class UserController {
 
 	/**
 	 * Updates a User
-	 * 
+	 *
 	 * @param user - Http request body containing a User object
 	 * @return Http response with body of User or a 404 not found status
 	 */
 	@PutMapping
-	public ResponseEntity<User> update(@RequestBody User user) {
+	public ResponseEntity<User> update(@RequestBody UserRequest user) {
 		Optional<User> newUserOptional = userv.findById(user.getId());
 		if(!newUserOptional.isPresent()) {
 			return ResponseEntity.notFound().build();
@@ -95,6 +95,12 @@ public class UserController {
 	public ResponseEntity<User> registerUser(@RequestBody UserRequest user) {
 		User newUser = new User(user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName(),
 				user.getRole());
-		return ResponseEntity.ok(userv.save(newUser));
+		try {
+			userv.findByEmail(user.getEmail());
+			return null;
+		} catch (Exception e){
+			return ResponseEntity.ok(userv.save(newUser));
+
+		}
 	}
 }
