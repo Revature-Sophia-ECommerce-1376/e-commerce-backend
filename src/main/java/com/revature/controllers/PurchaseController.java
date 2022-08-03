@@ -34,7 +34,7 @@ import com.revature.services.PurchaseService;
 
 @RestController
 @RequestMapping("api/purchases")
-@CrossOrigin(origins = {"http://localhost:4200", "https://revazon-image-bucket.s3.amazonaws.com"})
+@CrossOrigin(origins = {"http://localhost:4200", "https://revazon-image-bucket.s3.amazonaws.com", "http://backend-env.eba-g9uchpeu.us-west-2.elasticbeanstalk.com"})
 public class PurchaseController {
 
 	private final PurchaseService pserv;
