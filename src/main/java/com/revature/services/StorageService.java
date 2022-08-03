@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -52,9 +53,15 @@ public class StorageService {
 			/**File.delete(path) is preferred option, but its main advantage is exception handling
 			 * We have custom exception handling and do not need File.delete()
 			 */
-			if (fileObj.delete()) {
-				log.info(fileName + "was deleted after sending to s3");
+			try {
+				FileUtils.forceDelete(fileObj);
+				log.info(fileName + "was deleted after sending to s3");	
+			} catch (IOException e){
+				log.error(fileName + "could not be deleted");	
 			}
+//			if (fileObj.delete()) {
+//				log.info(fileName + "was deleted after sending to s3");
+//			}
 		} catch (Exception e) {
 			throw new FileUploadException(e.getMessage());
 		}
