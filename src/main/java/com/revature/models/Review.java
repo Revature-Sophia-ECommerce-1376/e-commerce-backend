@@ -27,7 +27,8 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "reviews")
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "product", "user" })
+
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "product" })
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
