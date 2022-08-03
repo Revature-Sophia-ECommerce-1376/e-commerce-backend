@@ -72,6 +72,7 @@ public class ProductController {
 	@PutMapping("/create-update")
 	public ResponseEntity<Product> insertAndUpdate(@RequestBody CreateUpdateRequest createupdateRequest) {
 		int id = createupdateRequest.getId();
+
 		Optional<Product> currPd = productService.findById(id);
 
 		int quantity = createupdateRequest.getQuantity();

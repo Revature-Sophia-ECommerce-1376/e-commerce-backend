@@ -28,6 +28,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @RequiredArgsConstructor
 @Entity
 @NoArgsConstructor
@@ -65,9 +66,6 @@ public class Address {
     @JoinTable(name = "users_addresses", joinColumns = @JoinColumn(name = "address_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     @ToString.Exclude
     private Set<User> users = new LinkedHashSet<>();
-
-    @Override
-    public String toString() { return BusinessIdentity.toString(this); }
 
     @Override
     public boolean equals(final Object o) { return BusinessIdentity.areEqual(this, o); }
