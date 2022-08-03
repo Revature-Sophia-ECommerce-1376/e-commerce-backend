@@ -45,11 +45,8 @@ public class ProductService {
     public Optional<Product> findById(int id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
 
-        if (!optionalProduct.isPresent()) {
-        
-            noId(id);
-        }
-        logger.info(String.format("Product with ID: %d successfully found", optionalProduct.get().getId()));
+        optionalProduct.ifPresent(
+                product -> logger.info(String.format("Product with ID: %d successfully found", product.getId())));
 
         return optionalProduct;
     }
