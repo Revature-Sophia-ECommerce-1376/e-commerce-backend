@@ -76,7 +76,6 @@ public class ProductService {
     public void delete(int id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
         if (optionalProduct.isPresent()) {
-            System.out.println(optionalProduct.get());
             productRepository.deleteById(id);
         } else {
             noId(id);
