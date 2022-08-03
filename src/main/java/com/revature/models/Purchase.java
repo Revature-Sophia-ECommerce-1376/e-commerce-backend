@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -16,6 +17,7 @@ import com.openpojo.business.annotation.BusinessKey;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "purchases")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "ownerUser" })
 public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
