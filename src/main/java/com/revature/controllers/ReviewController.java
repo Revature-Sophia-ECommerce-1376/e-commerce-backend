@@ -27,7 +27,7 @@ import com.revature.services.ReviewService;
  */
 @RestController
 @RequestMapping("/api/review")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://localhost:4200", "https://revazon-image-bucket.s3.amazonaws.com", "https://d1jltnx8c2x3v1.cloudfront.net/"})
 public class ReviewController {
 
 	private ReviewService reviewService;

@@ -1,5 +1,7 @@
 package com.revature.dtos;
 
+import javax.validation.constraints.NotNull;
+
 import com.openpojo.business.BusinessIdentity;
 import com.openpojo.business.annotation.BusinessKey;
 
@@ -12,8 +14,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LoginRequest {
 
+	@NotNull
 	@BusinessKey
     private String email;
+	@NotNull
 	@BusinessKey
     private String password;
 	
