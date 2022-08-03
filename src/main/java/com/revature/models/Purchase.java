@@ -18,7 +18,11 @@ import com.openpojo.business.annotation.BusinessKey;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "purchases")
+<<<<<<< HEAD
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "product", "ownerUser" })
+=======
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "ownerUser" })
+>>>>>>> 541f396f65da567367daf5f3294d67d15607649f
 public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

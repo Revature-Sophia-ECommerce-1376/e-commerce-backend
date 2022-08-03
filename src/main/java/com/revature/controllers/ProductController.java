@@ -31,7 +31,7 @@ import com.revature.services.StorageService;
  */
 @RestController
 @RequestMapping("/api/product")
-@CrossOrigin(origins = {"http://localhost:4200", "https://revazon-image-bucket.s3.amazonaws.com", "https://d1jltnx8c2x3v1.cloudfront.net/"})
+@CrossOrigin(origins = "*")
 public class ProductController {
 
 	private final ProductService productService;
@@ -44,7 +44,7 @@ public class ProductController {
 
 	/**
 	 * Gets all products in inventory
-	 * 
+	 *
 	 * @return HttpResponse with Body of an array of Products.
 	 */
 	@GetMapping
@@ -66,7 +66,7 @@ public class ProductController {
 
 	/**
 	 * Updates a Product.
-	 * @param createupdateRequest - Body of type Product. 
+	 * @param createupdateRequest - Body of type Product.
 	 * @return HttpResponse with Body of a Product
 	 */
 	@PutMapping("/create-update")
