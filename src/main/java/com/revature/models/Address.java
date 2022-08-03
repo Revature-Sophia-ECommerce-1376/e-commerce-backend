@@ -28,6 +28,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @RequiredArgsConstructor
 @Entity
 @NoArgsConstructor
@@ -35,7 +36,7 @@ import lombok.ToString;
 @Table(name = "addresses")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "users" })
 public class Address {
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "address_id")
     private int id;
@@ -67,11 +68,9 @@ public class Address {
     private Set<User> users = new LinkedHashSet<>();
 
     @Override
-    public String toString() { return BusinessIdentity.toString(this); }
-
-    @Override
     public boolean equals(final Object o) { return BusinessIdentity.areEqual(this, o); }
 
     @Override
     public int hashCode() { return BusinessIdentity.getHashCode(this); }
 }
+

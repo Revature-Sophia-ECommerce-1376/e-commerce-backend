@@ -74,7 +74,7 @@ VALUES (
            1
        );
 
-INSERT INTO reviews (review_id, posted, review, stars, title, updated, product_id, user_id)
+INSERT INTO reviews (review_id, posted, review_message, stars, title, updated, product_id, user_id)
 VALUES (
            1,
         '2022-07-31 22:38:11.28',
@@ -86,7 +86,7 @@ VALUES (
            1
        );
 
-INSERT INTO reviews (review_id,posted, review, stars, title,updated, product_id, user_id)
+INSERT INTO reviews (review_id,posted, review_message, stars, title,updated, product_id, user_id)
 VALUES (
            2,
            '2022-07-31 22:38:11.28',

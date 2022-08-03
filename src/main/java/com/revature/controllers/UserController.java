@@ -69,7 +69,7 @@ public class UserController {
 
 	/**
 	 * Updates a User
-	 * 
+	 *
 	 * @param user - Http request body containing a User object
 	 * @return Http response with body of User or a 404 not found status
 	 */
@@ -95,6 +95,12 @@ public class UserController {
 	public ResponseEntity<User> registerUser(@RequestBody UserRequest user) {
 		User newUser = new User(user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName(),
 				user.getRole());
-		return ResponseEntity.ok(userv.save(newUser));
+		try {
+			userv.findByEmail(user.getEmail());
+			return null;
+		} catch (Exception e){
+			return ResponseEntity.ok(userv.save(newUser));
+
+		}
 	}
 }

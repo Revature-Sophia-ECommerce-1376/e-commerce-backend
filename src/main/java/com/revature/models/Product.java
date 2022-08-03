@@ -29,6 +29,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -73,9 +74,6 @@ public class Product {
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
 	private Set<Purchase> purchases = new LinkedHashSet<>();
-	
-	@Override
-    public String toString() { return BusinessIdentity.toString(this); }
 
     @Override
     public boolean equals(final Object o) { return BusinessIdentity.areEqual(this, o); }

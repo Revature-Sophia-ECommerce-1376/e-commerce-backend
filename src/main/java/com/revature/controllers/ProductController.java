@@ -44,7 +44,7 @@ public class ProductController {
 
 	/**
 	 * Gets all products in inventory
-	 * 
+	 *
 	 * @return HttpResponse with Body of an array of Products.
 	 */
 	@GetMapping
@@ -66,12 +66,13 @@ public class ProductController {
 
 	/**
 	 * Updates a Product.
-	 * @param createupdateRequest - Body of type Product. 
+	 * @param createupdateRequest - Body of type Product.
 	 * @return HttpResponse with Body of a Product
 	 */
 	@PutMapping("/create-update")
 	public ResponseEntity<Product> insertAndUpdate(@RequestBody CreateUpdateRequest createupdateRequest) {
 		int id = createupdateRequest.getId();
+
 		Optional<Product> currPd = productService.findById(id);
 
 		int quantity = createupdateRequest.getQuantity();
