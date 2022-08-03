@@ -3,7 +3,6 @@ package com.revature.controllers;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +33,7 @@ import com.revature.services.PurchaseService;
 
 @RestController
 @RequestMapping("api/purchases")
-@CrossOrigin(origins = {"http://localhost:4200", "https://revazon-image-bucket.s3.amazonaws.com"})
+@CrossOrigin(origins = {"http://localhost:4200", "https://revazon-image-bucket.s3.amazonaws.com", "https://d1jltnx8c2x3v1.cloudfront.net/"})
 public class PurchaseController {
 
 	private final PurchaseService pserv;

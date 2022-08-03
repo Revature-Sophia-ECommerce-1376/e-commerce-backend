@@ -27,7 +27,7 @@ import com.revature.services.ReviewService;
  */
 @RestController
 @RequestMapping("/api/review")
-@CrossOrigin(origins = {"http://localhost:4200", "https://revazon-image-bucket.s3.amazonaws.com"})
+@CrossOrigin(origins = {"http://localhost:4200", "https://revazon-image-bucket.s3.amazonaws.com", "https://d1jltnx8c2x3v1.cloudfront.net/"})
 public class ReviewController {
 
 	private ReviewService reviewService;
@@ -89,8 +89,7 @@ public class ReviewController {
 	}
 
 	/**
-	 * Update a review with the given request's information, so long as session user
-	 * owns the review
+	 * Update a review with the given request's information
 	 *
 	 * @param reviewRequest the requested Review Object
 	 * @param id            ID of review to update
