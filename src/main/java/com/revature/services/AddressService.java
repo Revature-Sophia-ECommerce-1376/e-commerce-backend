@@ -22,7 +22,7 @@ public class AddressService {
 
 	private final AddressRepository addressRepo;
 
-	public AddressService(AddressRepository addressRepo, UserService userService) {
+	public AddressService(AddressRepository addressRepo) {
 		this.addressRepo = addressRepo;
 	}
 
