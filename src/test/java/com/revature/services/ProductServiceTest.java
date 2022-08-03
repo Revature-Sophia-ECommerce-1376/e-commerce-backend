@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.BDDMockito.given;
@@ -81,17 +82,15 @@ class ProductServiceTest {
 		verify(this.mockProductRepo, times(1)).findById(id);
 	}
 	
-//	@Test
-//	void testFindById_Failure_ProductNotFound() {
-//		int id = 404;
-//		given(this.mockProductRepo.findById(id)).willReturn(Optional.empty());
-//		try {
-//			this.pServ.findById(id);
-//			fail("Expected ProductNotFoundException to be throw");
-//		} catch (Exception e) {
-//			assertEquals(ProductNotFoundException.class, e.getClass());
-//		}
-//	}
+	@Test
+	void testFindById_ProductNotFound() {
+		int id = 404;
+		given(this.mockProductRepo.findById(id)).willReturn(Optional.empty());
+		
+		Optional<Product> optionalProduct = this.pServ.findById(id);
+		assertFalse(optionalProduct.isPresent());
+		verify(this.mockProductRepo, times(1)).findById(id);
+	}
 
 	@Test
 	void testSave() {
