@@ -129,7 +129,7 @@ class UserControllerTest {
 				this.dummyUser.getFirstName(), this.dummyUser.getLastName(), this.dummyUser.getRole());
 		given(this.uServ.save(new User(newUser.getEmail(), newUser.getPassword(), newUser.getFirstName(),
 				newUser.getLastName(), newUser.getRole()))).willReturn(this.dummyUser);
-		
+		given(this.uServ.findByEmail(this.dummyUser.getEmail())).willThrow(new UserNotFoundException());
 		String jsonContent = this.jsonUserRequest.write(newUser).getJson();
 		MockHttpServletRequestBuilder request = post(this.MAPPING_ROOT).contentType(MediaType.APPLICATION_JSON)
 				.content(jsonContent).sessionAttr("user", this.dummyUser).header(HttpHeaders.AUTHORIZATION, TOKEN);
