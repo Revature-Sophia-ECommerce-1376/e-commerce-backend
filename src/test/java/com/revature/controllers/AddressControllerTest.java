@@ -15,7 +15,6 @@ import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +32,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 import com.revature.config.TestConfig;
 import com.revature.dtos.AddressRequest;
+import com.revature.exceptions.AddressNotFoundException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Address;
 import com.revature.models.User;
@@ -172,15 +172,14 @@ class AddressControllerTest {
 		
 		String jsonContent = this.JsonAddressRequest.write(newReq).getJson();
 		given(userv.findById(dummyUser.getId())).willReturn(Optional.of(dummyUser));
+		given(aserv.update(newReq, dummyUser)).willThrow(new AddressNotFoundException());
 		
-		MockHttpServletRequestBuilder request = put(MAPPING + "/1").contentType(MediaType.APPLICATION_JSON)
+		MockHttpServletRequestBuilder request = put(MAPPING + "/" + dummyUser.getId()).contentType(MediaType.APPLICATION_JSON)
 				.content(jsonContent).sessionAttr("user", dummyUser)
 				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
 		MockHttpServletResponse response = mvc.perform(request).andReturn().getResponse();
 		
-		assertEquals(HttpStatus.OK.value(), response.getStatus());
-		assertEquals("", response.getContentAsString());
-		verify(this.aserv, times(1)).update(newReq, dummyUser);
+		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
 	}
 	
 	

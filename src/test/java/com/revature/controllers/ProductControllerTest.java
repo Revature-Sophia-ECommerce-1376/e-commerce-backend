@@ -74,6 +74,7 @@ class ProductControllerTest {
 	private ProductController controller;
 
 	private final String MAPPING_ROOT = "/api/product";
+	private final String TOKEN = "Bearer token";
 	private Product dummyProduct;
 
 	@BeforeEach
@@ -93,7 +94,7 @@ class ProductControllerTest {
 		given(this.pServ.findAll()).willReturn(inventory);
 
 		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT).accept(MediaType.APPLICATION_JSON)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -113,7 +114,7 @@ class ProductControllerTest {
 		given(this.pServ.findById(id)).willReturn(Optional.of(this.dummyProduct));
 
 		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/" + id).accept(MediaType.APPLICATION_JSON)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -143,7 +144,7 @@ class ProductControllerTest {
 		String jsonContent = this.jsonCreateUpdateRequest.write(createRequest).getJson();
 		MockHttpServletRequestBuilder request = put(this.MAPPING_ROOT + "/create-update")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -166,13 +167,32 @@ class ProductControllerTest {
 		String jsonContent = this.jsonCreateUpdateRequest.write(updateRequest).getJson();
 		MockHttpServletRequestBuilder request = put(this.MAPPING_ROOT + "/create-update")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 		assertEquals(this.jsonProduct.write(expected).getJson(), response.getContentAsString());
 		verify(this.pServ, times(1)).findById(id);
 		verify(this.pServ, times(1)).save(this.dummyProduct);
+	}
+	
+	@Test
+	void testInsertAndUpdate_Failure_InvalidInput() throws Exception {
+		int id = this.dummyProduct.getId();
+		CreateUpdateRequest updateRequest = new CreateUpdateRequest(id, this.dummyProduct.getQuantity(),
+				this.dummyProduct.getPrice(), this.dummyProduct.getDescription(), this.dummyProduct.getImage(),
+				null);
+
+		given(this.pServ.findById(id)).willReturn(Optional.empty());
+
+		String jsonContent = this.jsonCreateUpdateRequest.write(updateRequest).getJson();
+		MockHttpServletRequestBuilder request = put(this.MAPPING_ROOT + "/create-update")
+				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
+		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
+
+		assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
+		verify(this.pServ, times(1)).findById(id);
 	}
 
 	@Test
@@ -188,7 +208,7 @@ class ProductControllerTest {
 		String jsonContent = this.jsonCreateUpdateRequest.write(updateRequest).getJson();
 		MockHttpServletRequestBuilder request = put(this.MAPPING_ROOT + "/create-update")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -248,7 +268,7 @@ class ProductControllerTest {
 		String jsonContent = this.jsonProductInfoList.write(metadata).getJson();
 		MockHttpServletRequestBuilder request = patch(this.MAPPING_ROOT).contentType(MediaType.APPLICATION_JSON)
 				.content(jsonContent)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -276,7 +296,7 @@ class ProductControllerTest {
 
 		MockHttpServletRequestBuilder request = delete(this.MAPPING_ROOT + "/" + productId)
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -306,7 +326,7 @@ class ProductControllerTest {
 		List<Product> expected = results;
 		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/partial-search/" + name)
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -334,7 +354,7 @@ class ProductControllerTest {
 		String content = this.jsonPriceRangeRequest.write(range).getJson();
 		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/price-range")
 				.contentType(MediaType.APPLICATION_JSON).content(content)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -358,7 +378,7 @@ class ProductControllerTest {
 
 		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/filter-rating")
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());

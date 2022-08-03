@@ -20,10 +20,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+
 import com.revature.dtos.ReviewRequest;
 import com.revature.exceptions.DuplicateReviewException;
 import com.revature.exceptions.ReviewNotFoundException;
 import com.revature.exceptions.UnauthorizedReviewAccessException;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Product;
 import com.revature.models.Review;
 import com.revature.models.User;
@@ -95,6 +97,23 @@ class ReviewServiceTest {
 			fail("Expected a ResourceAccessException to be thrown");
 		} catch (Exception e) {
 			assertEquals("No product found with ID " + productId, e.getMessage());
+			verify(this.pServ, times(1)).findById(productId);
+		}
+	}
+	
+	@Test
+	void testAdd_Failure_UserNotFound() {
+		ReviewRequest request = new ReviewRequest(this.dummyUser.getId(), this.dummyProduct.getId(), 1, "Not working",
+				"It doesn't work as advertised. I am dissatisfied with this product.");
+		int productId = this.dummyProduct.getId();
+		given(this.pServ.findById(request.getProductId())).willReturn(Optional.of(this.dummyProduct));
+		given(this.uServ.findById(this.dummyUser.getId())).willReturn(Optional.empty());
+		
+		try {
+			this.rServ.add(request);
+			fail("Expected a ResourceAccessException to be thrown");
+		} catch (Exception e) {
+			assertEquals(UserNotFoundException.class, e.getClass());
 			verify(this.pServ, times(1)).findById(productId);
 		}
 	}

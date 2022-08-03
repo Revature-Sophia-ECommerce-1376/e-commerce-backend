@@ -13,15 +13,15 @@ spring:
                 jwt:
                     issuer-uri: https://dev-famcs6az.us.auth0.com/
     datasource:
-        url: jdbc:postgresql://localhost:5432/postgres
-        driver-class-name: org.postgresql.Driver
-        username: postgres
-        password: postgres
 
-#            url: jdbc:postgresql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}
-#            driver-class-name: org.postgresql.Driver
-#            username: ${RDS_USERNAME}
-#            password: ${RDS_PASSWORD}
+        url: jdbc:postgresql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}
+        driver-class-name: org.postgresql.Driver
+        username: ${RDS_USERNAME}
+        password: ${RDS_PASSWORD}
+#        url: jdbc:postgresql://localhost:5432/postgres
+#        driver-class-name: org.postgresql.Driver
+#        username: postgres
+#        password: postgres
 
     h2:
         console.enabled: true

@@ -27,6 +27,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "reviews")
+
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "product" })
 public class Review {
     @Id

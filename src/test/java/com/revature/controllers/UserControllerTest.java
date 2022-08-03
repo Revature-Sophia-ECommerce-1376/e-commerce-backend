@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 import java.util.Optional;
@@ -53,6 +54,7 @@ class UserControllerTest {
 	private UserController controller;
 
 	private final String MAPPING_ROOT = "/api/users";
+	private final String TOKEN = "Bearer token";
 	private User dummyUser;
 
 	@BeforeEach
@@ -71,7 +73,7 @@ class UserControllerTest {
 		given(this.uServ.findById(userId)).willReturn(Optional.of(this.dummyUser));
 
 		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/" + userId).accept(MediaType.APPLICATION_JSON)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -85,7 +87,7 @@ class UserControllerTest {
 		given(this.uServ.findById(id)).willReturn(Optional.empty());
 
 		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/" + id).accept(MediaType.APPLICATION_JSON)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
@@ -98,7 +100,7 @@ class UserControllerTest {
 		given(this.uServ.findByEmail(email)).willReturn(Optional.of(this.dummyUser));
 
 		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/email/" + email)
-				.accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		this.dummyUser.setPassword("");
@@ -110,14 +112,30 @@ class UserControllerTest {
 	@Test
 	void testGetUserByEmail_Failure_UserNotFound() throws Exception {
 		String email = this.dummyUser.getEmail();
-		given(this.uServ.findByEmail(email)).willThrow(new UserNotFoundException("Could not find a user with email " + email));
+		given(this.uServ.findByEmail(email))
+				.willThrow(new UserNotFoundException("Could not find a user with email " + email));
 
 		MockHttpServletRequestBuilder request = get(this.MAPPING_ROOT + "/email/" + email)
-				.accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
 		verify(this.uServ, times(1)).findByEmail(email);
+	}
+
+	@Test
+	void testRegister_Success() throws Exception {
+		UserRequest newUser = new UserRequest(0, this.dummyUser.getEmail(), this.dummyUser.getPassword(),
+				this.dummyUser.getFirstName(), this.dummyUser.getLastName(), this.dummyUser.getRole());
+		given(this.uServ.save(new User(newUser.getEmail(), newUser.getPassword(), newUser.getFirstName(),
+				newUser.getLastName(), newUser.getRole()))).willReturn(this.dummyUser);
+		given(this.uServ.findByEmail(this.dummyUser.getEmail())).willThrow(new UserNotFoundException());
+		String jsonContent = this.jsonUserRequest.write(newUser).getJson();
+		MockHttpServletRequestBuilder request = post(this.MAPPING_ROOT).contentType(MediaType.APPLICATION_JSON)
+				.content(jsonContent).sessionAttr("user", this.dummyUser).header(HttpHeaders.AUTHORIZATION, TOKEN);
+		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
+		assertEquals(HttpStatus.OK.value(), response.getStatus());
+		assertEquals(this.jsonUser.write(this.dummyUser).getJson(), response.getContentAsString());
 	}
 
 	@Test
@@ -130,8 +148,7 @@ class UserControllerTest {
 
 		String jsonContent = this.jsonUserRequest.write(newUser).getJson();
 		MockHttpServletRequestBuilder request = put(this.MAPPING_ROOT).contentType(MediaType.APPLICATION_JSON)
-				.content(jsonContent).sessionAttr("user", this.dummyUser)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer token");
+				.content(jsonContent).sessionAttr("user", this.dummyUser).header(HttpHeaders.AUTHORIZATION, TOKEN);
 		MockHttpServletResponse response = this.mvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
