@@ -38,6 +38,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity
+@ToString
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
@@ -96,9 +97,6 @@ public class User {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<Address> addresses = new HashSet<>();
-    
-    @Override
-    public String toString() { return BusinessIdentity.toString(this); }
 
     @Override
     public boolean equals(final Object o) { return BusinessIdentity.areEqual(this, o); }

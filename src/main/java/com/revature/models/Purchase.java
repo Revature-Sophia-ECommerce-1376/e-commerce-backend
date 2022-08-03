@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -13,9 +14,11 @@ import com.openpojo.business.annotation.BusinessKey;
 @Getter
 @Setter
 @Entity
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "purchases")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "product", "ownerUser" })
 public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,20 +34,19 @@ public class Purchase {
     @ManyToOne
     @JoinColumn(name = "product_id")
     @NotNull
+    @ToString.Exclude
     private Product product;
 
 	@BusinessKey
     @ManyToOne
     @JoinColumn(name = "user_id")
     @NotNull
+    @ToString.Exclude
     private User ownerUser;
 
 	@BusinessKey
     @Column(name = "quantity")
     private int quantity;
-	
-	@Override
-    public String toString() { return BusinessIdentity.toString(this); }
 
     @Override
     public boolean equals(final Object o) { return BusinessIdentity.areEqual(this, o); }

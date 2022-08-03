@@ -89,8 +89,7 @@ public class ReviewController {
 	}
 
 	/**
-	 * Update a review with the given request's information, so long as session user
-	 * owns the review
+	 * Update a review with the given request's information
 	 *
 	 * @param reviewRequest the requested Review Object
 	 * @param id            ID of review to update
